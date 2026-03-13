@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet } from "react-native";
-import colors from "../constants/colors";
+import { View, Text } from "react-native";
+import { notificacionesStyles as styles } from "../styles/Stylesheet";
 
 export default function NotificacionesScreen(){
 
@@ -18,19 +18,3 @@ export default function NotificacionesScreen(){
   )
 }
 
-const styles = StyleSheet.create({
-
-  container:{
-    flex:1,
-    backgroundColor:colors.background,
-    padding:15
-  },
-
-  notification:{
-    backgroundColor:colors.white,
-    padding:20,
-    borderRadius:10,
-    marginBottom:10
-  }
-
-});

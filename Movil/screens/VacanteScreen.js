@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import colors from "../constants/colors";
+import { View, Text, TouchableOpacity } from "react-native";
+import { vacanteStyles as styles } from "../styles/Stylesheet";
 
 export default function VacanteScreen({ navigation }) {
 
@@ -25,7 +25,7 @@ export default function VacanteScreen({ navigation }) {
 
       <TouchableOpacity
         style={styles.boton}
-        onPress={() => navigation.navigate("Postulación")}
+        onPress={() => navigation.navigate("Postulacion")}
       >
         <Text style={styles.botonTexto}>Postularse</Text>
       </TouchableOpacity>
@@ -33,49 +33,3 @@ export default function VacanteScreen({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-
-  container:{
-    flex:1,
-    backgroundColor:colors.background,
-    padding:20
-  },
-
-  titulo:{
-    fontSize:24,
-    fontWeight:"bold",
-    color:colors.primary,
-    marginBottom:10
-  },
-
-  empresa:{
-    fontSize:16,
-    marginBottom:20
-  },
-
-  seccion:{
-    fontSize:18,
-    fontWeight:"bold",
-    marginTop:10
-  },
-
-  texto:{
-    fontSize:14,
-    marginTop:5
-  },
-
-  boton:{
-    marginTop:30,
-    backgroundColor:colors.secondary,
-    padding:15,
-    borderRadius:10,
-    alignItems:"center"
-  },
-
-  botonTexto:{
-    color:colors.white,
-    fontWeight:"bold"
-  }
-
-});

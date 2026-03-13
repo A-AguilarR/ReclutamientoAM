@@ -1,5 +1,5 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import colors from "../constants/colors";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { postulacionStyles as styles } from "../styles/Stylesheet";
 
 export default function PostulacionScreen(){
 
@@ -36,44 +36,3 @@ export default function PostulacionScreen(){
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-
-  container:{
-    flex:1,
-    backgroundColor:colors.background,
-    padding:20
-  },
-
-  titulo:{
-    fontSize:24,
-    fontWeight:"bold",
-    color:colors.primary,
-    marginBottom:20
-  },
-
-  input:{
-    backgroundColor:colors.white,
-    padding:15,
-    borderRadius:10,
-    marginBottom:15
-  },
-
-  textArea:{
-    height:100,
-    textAlignVertical:"top"
-  },
-
-  boton:{
-    backgroundColor:colors.secondary,
-    padding:15,
-    borderRadius:10,
-    alignItems:"center"
-  },
-
-  botonTexto:{
-    color:colors.white,
-    fontWeight:"bold"
-  }
-
-});
