@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OSearch — Detalle de Vacante</title>
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/detalle_vacante.css" />
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">Overdrive <span>Search</span></div>
+    <nav>
+      <a href="dashboard.html" class="nav-item">Panel Principal</a>
+      <a href="vacantes.html"  class="nav-item active">Vacantes</a>
+      <a href="candidatos-externos.html" class="nav-item">Candidatos externos</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a id="logoutBtn" class="nav-item logout">Cerrar sesión</a>
+    </div>
+  </aside>
+
+  <div class="main">
+
+    <header>
+      <div>
+        <h1>Detalle de Vacante</h1>
+        <p>Fecha actual: <span id="fecha-actual"></span></p>
+      </div>
+      <div class="header-user">
+        <p class="muted" id="welcome">Cargando usuario...</p>
+        <button id="logoutBtnHeader" class="btn btn-secondary btn-sm">Cerrar sesión</button>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <div class="vacante-header">
+        <div>
+          <h2 id="v-titulo">—</h2>
+          <span id="v-estatus" class="pill">—</span>
+          <div class="meta">
+            <div class="meta-item"><strong>Área:</strong> <span id="v-area">—</span></div>
+            <div class="meta-item"><strong>Creada:</strong> <span id="v-creada">—</span></div>
+            <div class="meta-item"><strong>Fecha límite:</strong>
+              <span id="v-cierre" style="color:#E53E3E;">—</span>
+            </div>
+            <div class="meta-item"><strong>Postulantes:</strong>
+              <span id="v-postulantes">—</span>
+            </div>
+          </div>
+        </div>
+        <div class="header-actions">
+          <a id="btnEditar" href="#" class="btn btn-secondary">Editar vacante</a>
+          <button id="btnCerrar" class="btn btn-danger">Cerrar vacante</button>
+        </div>
+      </div>
+
+      <div class="white-box">
+        <h2>Requisitos de evaluación</h2>
+        <div id="v-requisitos">
+          </div>
+      </div>
+
+      <div class="white-box">
+        <h2>Ranking de postulantes</h2>
+        <div class="ranking-header">
+          <span>#</span>
+          <span>Candidato</span>
+          <span>Tipo</span>
+          <span>Puntaje automático</span>
+          <span>Puntaje entrevista</span>
+          <span>Puntaje final</span>
+          <span>Estatus</span>
+          <span>Acciones</span>
+        </div>
+        <div id="v-ranking">
+          </div>
+      </div>
+
+      <div class="flujo-card">
+        <h2>Flujo de candidatos externos</h2>
+        <div class="flujo-status">
+          <div class="flujo-info">
+            <strong>Estado del flujo externo</strong>
+            <p id="flujo-descripcion">—</p>
+          </div>
+          <div class="toggle-row">
+            <span id="flujo-label">Flujo inactivo</span>
+            <div class="toggle" id="flujoToggle">
+              <div class="toggle-dot"></div>
+            </div>
+          </div>
+        </div>
+        <div class="flujo-detalle">
+          <div class="flujo-campo">
+            <label>Candidatos externos recibidos</label>
+            <span id="flujo-recibidos">—</span>
+          </div>
+          <div class="flujo-campo">
+            <label>Pendientes de revisión</label>
+            <span id="flujo-pendientes" style="color:#DD6B20;">—</span>
+          </div>
+        </div>
+        <div style="margin-top:1rem; display:flex; gap:0.75rem;">
+          <a href="candidatos-externos.html" class="btn btn-secondary">
+            Ver candidatos externos
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/detalle-vacante.js"></script>
+</body>
+</html>

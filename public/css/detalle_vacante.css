@@ -1,0 +1,162 @@
+/* Encabezado de vacante */
+    .vacante-header {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .vacante-header h2 { font-size: 20px; color: #0B3D91; margin-bottom: 6px; }
+
+    .meta { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 8px; }
+    .meta-item { font-size: 13px; color: #555; }
+    .meta-item strong { color: #333; }
+
+    .pill {
+      display: inline-block;
+      padding: 3px 12px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .pill-activa  { background: #BEE3F8; color: #2B6CB0; }
+    .pill-eval    { background: #FEEBC8; color: #C05621; }
+    .pill-cerrada { background: #E2E8F0; color: #718096; }
+
+    .header-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: flex-start; }
+
+    .btn {
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: bold;
+      text-decoration: none;
+      font-family: Arial, sans-serif;
+      display: inline-block;
+    }
+
+    .btn-primary   { background: #0B3D91; color: white; }
+    .btn-secondary { background: white; color: #0B3D91; border: 1px solid #B5D4F4; }
+    .btn-danger    { background: white; color: #E53E3E; border: 1px solid #FEB2B2; }
+
+    /* Flujo externo */
+    .flujo-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      border-left: 4px solid #DD6B20;
+    }
+
+    .flujo-card h2 {
+      font-size: 14px;
+      font-weight: bold;
+      color: #0B3D91;
+      margin-bottom: 1rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 2px solid #B5D4F4;
+    }
+
+    .flujo-status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .flujo-info { font-size: 14px; color: #555; }
+    .flujo-info strong { color: #333; display: block; margin-bottom: 4px; }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #0B3D91;
+    }
+
+    .toggle {
+      width: 46px;
+      height: 24px;
+      background: #38A169;
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .toggle.off { background: #CBD5E0; }
+
+    .toggle-dot {
+      width: 18px;
+      height: 18px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      right: 4px;
+    }
+
+    .toggle.off .toggle-dot { right: auto; left: 4px; }
+
+    .flujo-detalle {
+      margin-top: 1rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .flujo-campo { display: flex; flex-direction: column; gap: 4px; }
+    .flujo-campo label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
+    .flujo-campo span  { font-size: 14px; color: #333; font-weight: bold; }
+
+    /* Sección genérica */
+    .section-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .section-card h2 {
+      font-size: 14px;
+      font-weight: bold;
+      color: #0B3D91;
+      margin-bottom: 1rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 2px solid #B5D4F4;
+    }
+
+    /* Tabla candidatos */
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+
+    thead th {
+      background: #185FA5;
+      color: white;
+      text-align: left;
+      padding: 10px 14px;
+    }
+
+    tbody tr { border-top: 1px solid #E2E8F0; }
+    tbody tr:hover { background: #E8F2FC; }
+    tbody td { padding: 11px 14px; }
+
+    .pill-entrevista { background: #C6F6D5; color: #276749; }
+    .pill-revision   { background: #E9D8FD; color: #553C9A; }
+    .pill-descartado { background: #FED7D7; color: #9B2C2C; }
+
+    .btn-sm {
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+      text-decoration: none;
+      border: 1px solid #B5D4F4;
+      background: white;
+      color: #185FA5;
+      display: inline-block;
+      margin-right: 4px;
+    }
