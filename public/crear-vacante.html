@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OSearch — Crear Vacante</title>
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/crear-vacante.css" />
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">Overdrive <span>Search</span></div>
+    <nav>
+      <a href="dashboard.html" class="nav-item">Dashboard</a>
+      <a href="vacantes.html"  class="nav-item active">Vacantes</a>
+      <a href="candidatos-externos.html" class="nav-item">Candidatos externos</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a id="logoutBtn" class="nav-item logout">Cerrar sesión</a>
+    </div>
+  </aside>
+
+  <div class="main">
+
+    <header>
+      <div>
+        <h1>Crear nueva vacante</h1>
+        <p>Completa los datos y define los requisitos con sus pesos</p>
+      </div>
+      <div class="header-user">
+        <p class="muted" id="welcome">Cargando usuario...</p>
+        <button id="logoutBtnHeader" class="btn btn-secondary">Cerrar sesión</button>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="white-box">
+        <div class="section-title">Datos generales</div>
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label>Título del puesto *</label>
+            <input type="text" id="titulo" placeholder="ej. Director de Calidad Automotriz" />
+          </div>
+
+          <div class="form-group">
+            <label>Área / Departamento *</label>
+            <select id="id_area">
+              <option value="">Seleccionar...</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Salario estimado (rango)</label>
+            <input type="text" id="salario" placeholder="ej. $80,000 – $120,000 MXN" />
+          </div>
+
+          <div class="form-group">
+            <label>Fecha de apertura interna</label>
+            <input type="date" id="fecha_apertura_interna" />
+          </div>
+
+          <div class="form-group">
+            <label>Fecha límite (cierre)</label>
+            <input type="date" id="fecha_cierre" />
+          </div>
+
+          <div class="form-group form-full">
+            <label>Descripción del puesto</label>
+            <textarea id="descripcion" rows="3"
+              placeholder="Describe las responsabilidades principales..."></textarea>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="white-box">
+        <div class="section-title">
+          Requisitos y pesos de evaluación
+          <button class="btn btn-secondary btn-sm" id="btnAddReq">+ Agregar requisito</button>
+        </div>
+
+        <p class="text-muted" style="margin-bottom:1rem;">
+          Cada requisito tiene un peso (%) que se usará para calcular el ranking de postulantes.
+          La suma debe ser exactamente 100%.
+        </p>
+
+        <div class="req-headers">
+          <span>Descripción del requisito</span>
+          <span>Tipo</span>
+          <span>Valor mínimo</span>
+          <span>Valor ideal</span>
+          <span>Peso (%)</span>
+          <span>Excluyente</span>
+          <span></span>
+        </div>
+
+        <div id="req-list">
+        </div>
+
+        <div class="weight-total" id="weight-display">Total: 0%</div>
+
+        <div style="margin-top:1rem; padding-top:1rem; border-top:1px solid #E2E8F0;">
+          <p class="text-muted">
+            Escala de evaluación por requisito: 1 (Muy bajo) → 5 (Excelente)
+          </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <button class="btn btn-primary" id="btnGuardar">Guardar vacante</button>
+        <a href="vacantes.html"><button class="btn btn-secondary">Cancelar</button></a>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/crear-vacante.js"></script>
+</body>
+</html>
