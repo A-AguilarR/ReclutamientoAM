@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OSearch — Candidatos Externos</title>
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/candidatos-externos.css" />
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">Overdrive <span>Search</span></div>
+    <nav>
+      <a href="dashboard.html" class="nav-item">Panel Principal</a>
+      <a href="vacantes.html"  class="nav-item">Vacantes</a>
+      <a href="candidatos-externos.html" class="nav-item active">Candidatos externos</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a id="logoutBtn" class="nav-item logout">Cerrar sesión</a>
+    </div>
+  </aside>
+
+  <div class="main">
+
+    <header>
+      <div>
+        <h1>Candidatos Externos</h1>
+        <p>Fecha actual: <span id="fecha-actual"></span></p>
+      </div>
+      <div class="header-user">
+        <p class="muted" id="welcome">Cargando usuario...</p>
+        <button id="logoutBtnHeader" class="btn btn-secondary btn-sm">Cerrar sesión</button>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <div class="filtros">
+        <div class="f-group">
+          <label>Vacante</label>
+          <select id="filtroVacante">
+            <option value="">Todas las vacantes</option>
+          </select>
+        </div>
+        <div class="f-group">
+          <label>Estatus</label>
+          <select id="filtroEstatus">
+            <option value="">Todos los estatus</option>
+            </select>
+        </div>
+        <div class="f-group">
+          <label>Buscar por nombre</label>
+          <input type="text" id="filtroNombre" placeholder="Nombre del candidato..." />
+        </div>
+        <button class="btn-filtrar" id="btnFiltrar">Filtrar</button>
+      </div>
+
+      <div class="table-header">
+        <h2>Lista de candidatos externos</h2>
+        <span id="resumenCandidatos">Cargando...</span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Candidato</th>
+              <th>Vacante</th>
+              <th>Estatus</th>
+              <th>Fecha de postulación</th>
+              <th>Documentos</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyCandidatos">
+            </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/candidatos-externos.js"></script>
+</body>
+</html>
