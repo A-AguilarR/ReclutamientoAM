@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OSearch — Vacantes</title>
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/vacantes.css" />
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">Overdrive <span>Search</span></div>
+    <nav>
+      <a href="dashboard.html" class="nav-item">Panel Principal</a>
+      <a href="vacantes.html"  class="nav-item active">Vacantes</a>
+      <a href="candidatos-externos.html" class="nav-item">Candidatos externos</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a id="logoutBtn" class="nav-item logout">Cerrar sesión</a>
+    </div>
+  </aside>
+
+  <div class="main">
+
+    <header>
+      <div>
+        <h1>Lista de vacantes</h1>
+        <p>Gestiona y revisa todas las posiciones activas</p>
+      </div>
+      <div class="header-user">
+        <p class="muted" id="welcome">Cargando usuario...</p>
+        <button id="logoutBtnHeader" class="btn btn-secondary btn-sm">Cerrar sesión</button>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <div class="section-title">
+        Vacantes
+        <a href="crear-vacante.html">
+          <button class="btn btn-primary btn-sm">+ Nueva vacante</button>
+        </a>
+      </div>
+
+      <div class="filter-row">
+        <input type="text" id="filtroTexto" placeholder="Buscar por título..." style="min-width:200px;" />
+        <select id="filtroEstatus">
+          <option value="">Todos los estatus</option>
+          </select>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Título</th>
+              <th>Área</th>
+              <th>Estatus</th>
+              <th>Postulantes</th>
+              <th>Fecha límite</th>
+              <th>Flujo externo</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="tbodyVacantes">
+            </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/vacantes.js"></script>
+</body>
+</html>
