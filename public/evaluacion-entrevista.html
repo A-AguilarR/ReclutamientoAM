@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OSearch — Registrar Evaluación</title>
+  <link rel="stylesheet" href="css/app.css" />
+  <link rel="stylesheet" href="css/evaluacion_entrevista.css" />
+</head>
+<body>
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">Overdrive <span>Search</span></div>
+    <nav>
+      <a href="dashboard.html" class="nav-item">Dashboard</a>
+      <a href="vacantes.html"  class="nav-item active">Vacantes</a>
+      <a href="candidatos-externos.html" class="nav-item">Candidatos externos</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <a id="logoutBtn" class="nav-item logout">Cerrar sesión</a>
+    </div>
+  </aside>
+
+  <div class="main">
+
+    <header>
+      <div>
+        <h1>Registrar Evaluación de Entrevista</h1>
+        <p>Fecha actual: <span id="fecha-actual"></span></p>
+      </div>
+      <div class="header-user">
+        <p class="muted" id="welcome">Cargando usuario...</p>
+        <button id="logoutBtnHeader" class="btn btn-secondary btn-sm">Cerrar sesión</button>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <div class="info-card">
+        <div class="field">
+          <label>Candidato</label>
+          <span id="i-candidato" class="pill">—</span>
+        </div>
+        <div class="field">
+          <label>Tipo</label>
+          <span id="i-tipo" class="pill">—</span>
+        </div>
+        <div class="field">
+          <label>Vacante</label>
+          <span id="i-vacante" class="pill">—</span>
+        </div>
+        <div class="field">
+          <label>Área</label>
+          <span id="i-area" class="pill">—</span>
+        </div>
+        <div class="field">
+          <label>Puntaje automático</label>
+          <span id="i-puntaje-auto" class="pill">—</span>
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h2>Datos de la evaluación</h2>
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label>Fecha de entrevista</label>
+            <input type="date" id="fecha_entrevista" />
+          </div>
+
+          <div class="form-group">
+            <label>Recomendación general</label>
+            <select id="id_recomendacion">
+              <option value="">-- Selecciona --</option>
+            </select>
+          </div>
+
+          <div class="form-group full">
+            <label>Observaciones generales</label>
+            <textarea id="observaciones"
+              placeholder="Escribe tus observaciones sobre el candidato..."></textarea>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="form-card">
+        <h2>Evaluación por requisito</h2>
+        <p class="text-muted" style="margin-bottom:1rem;">
+          Califica cada requisito de la vacante del 1 (Muy bajo) al 5 (Excelente).
+        </p>
+        <div class="criterios" id="criterios-list">
+        </div>
+
+        <div class="form-actions" style="margin-top:1.5rem;">
+          <button id="btnCancelar" class="btn btn-secondary">Cancelar</button>
+          <button id="btnGuardar" class="btn btn-primary">Guardar evaluación</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="js/evaluacion-entrevista.js"></script>
+</body>
+</html>

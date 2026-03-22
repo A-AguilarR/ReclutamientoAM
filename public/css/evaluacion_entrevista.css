@@ -1,0 +1,67 @@
+/* Criterios de evaluación */
+    .criterios { display: flex; flex-direction: column; gap: 0.75rem; }
+
+    .criterio {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.75rem 1rem;
+      background: #F4F7FB;
+      border-radius: 8px;
+    }
+
+    .criterio-nombre { font-size: 14px; font-weight: bold; color: #333; flex: 1; }
+
+    .estrellas { display: flex; gap: 6px; }
+
+    .estrella {
+      width: 28px; height: 28px;
+      border-radius: 6px;
+      border: 1px solid #B5D4F4;
+      background: white;
+      font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: default;
+    }
+
+    .estrella.sel { background: #185FA5; border-color: #185FA5; color: white; }
+.form-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+    }
+
+    .form-card h2 {
+      font-size: 14px;
+      font-weight: bold;
+      color: #0B3D91;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 2px solid #B5D4F4;
+    }
+
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group.full { grid-column: span 2; }
+
+    label {
+      font-size: 13px;
+      font-weight: bold;
+      color: #185FA5;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #B5D4F4;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: Arial, sans-serif;
+      color: #1a202c;
+      background: white;
+    }
+
+    textarea { resize: vertical; min-height: 90px; }
