@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\VacantesController;
 use App\Http\Controllers\Api\CatalogosController;
+use App\Http\Controllers\Api\EvaluacionesEntrevistaController;
+use App\Http\Controllers\Api\PostulacionesController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -21,6 +23,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/vacantes', [VacantesController::class, 'index']);
     Route::post('/vacantes', [VacantesController::class, 'store']);
     Route::get('/vacantes/{id}', [VacantesController::class, 'show']);
+    Route::post('/evaluaciones-entrevista', [EvaluacionesEntrevistaController::class, 'store']);
+    Route::get('/evaluaciones-entrevista/{id}', [EvaluacionesEntrevistaController::class, 'show']);
+    Route::get('/postulaciones/{id}', [PostulacionesController::class, 'show']);
+    Route::post('/postulaciones', [PostulacionesController::class, 'store']);
 
     // Catálogos
     Route::prefix('catalogos')->group(function () {
