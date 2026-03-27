@@ -1,113 +1,179 @@
-* { box-sizing: border-box; margin: 0; padding: 0; }
-/*body*/
-    body {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: #E8F2FC;
-      font-family: Arial, sans-serif;
-    }
 
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 2.5rem 2rem;
-      width: 100%;
-      max-width: 380px;
-      box-shadow: 0 8px 32px rgba(11, 61, 145, 0.12);
-    }
 
-    h1 {
-      font-size: 22px;
-      color: #0B3D91;
-      margin-bottom: 6px;
-    }
+body {
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #EDF3FA 0%, #D6E8F7 100%);
+}
 
-    p.sub {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 1.75rem;
-    }
+/* ── Login card ── */
+.card {
+  background: var(--surface);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem 2.25rem;
+  width: 100%;
+  max-width: 390px;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border);
+  animation: cardIn 0.3s ease;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: bold;
-      color: #185FA5;
-      margin-bottom: 6px;
-    }
+/* ── Brand mark ── */
+.card-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--brand-800);
+  letter-spacing: -0.3px;
+}
+.card-brand span { color: var(--brand-400); }
+.card-brand::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--brand-400);
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(74,144,217,0.3);
+}
 
-    input {
-      width: 100%;
-      padding: 11px 14px;
-      border: 1.5px solid #B5D4F4;
-      border-radius: 10px;
-      font-size: 14px;
-      outline: none;
-      margin-bottom: 1.1rem;
-    }
+/* ── Heading ── */
+h1 {
+  font-size: 21px;
+  font-weight: 800;
+  color: var(--brand-800);
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+}
 
-    input:focus {
-      border-color: #185FA5;
-      box-shadow: 0 0 0 3px rgba(24, 95, 165, 0.1);
-    }
+p.sub {
+  font-size: 13.5px;
+  color: var(--text-muted);
+  margin-bottom: 1.75rem;
+}
 
-    .pw-wrap {
-      position: relative;
-    }
+/* ── Labels ── */
+label {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--brand-700);
+  margin-bottom: 5px;
+  letter-spacing: 0.1px;
+}
 
-    .pw-wrap input {
-      padding-right: 42px;
-      margin-bottom: 0;
-    }
+/* ── Inputs ── */
+input {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid var(--brand-200);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-family: var(--font);
+  color: var(--text-primary);
+  background: var(--surface);
+  outline: none;
+  margin-bottom: 1.1rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+input::placeholder { color: #A0AEC0; }
+input:focus {
+  border-color: var(--brand-600);
+  box-shadow: 0 0 0 3px rgba(24,95,165,0.12);
+}
 
-    .pw-wrap button {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: #185FA5;
-      font-size: 13px;
-    }
+/* ── Campo de contraseña ── */
+.pw-wrap { position: relative; }
+.pw-wrap input {
+  padding-right: 44px;
+  margin-bottom: 0;
+}
+.pw-wrap button {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--brand-600);
+  font-size: 13px;
+  font-family: var(--font);
+  font-weight: 600;
+  padding: 2px 4px;
+  transition: color var(--transition);
+}
+.pw-wrap button:hover { color: var(--brand-800); }
 
-    .space {
-      text-align: right;
-      margin: 6px 0 1.5rem;
-    }
+/* ── "¿Olvidaste tu contraseña?" ── */
+.forgot {
+  text-align: right;
+  margin: 6px 0 1.5rem;
+}
+.forgot a {
+  font-size: 12.5px;
+  color: var(--brand-600);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition);
+}
+.forgot a:hover { color: var(--brand-800); text-decoration: underline; }
 
-    .forgot a {
-      font-size: 13px;
-      color: #185FA5;
-      text-decoration: none;
-    }
+/* ── Botón principal ── */
+.btn {
+  width: 100%;
+  padding: 10px;
+  padding-top: 10px;
+  background: var(--brand-800);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 14.5px;
+  font-weight: 700;
+  font-family: var(--font);
+  cursor: pointer;
+  box-shadow: 0 3px 12px rgba(11,61,145,0.30);
+  transition: background var(--transition), box-shadow var(--transition),
+              transform var(--transition);
+  letter-spacing: -0.1px;
+}
+.btn:hover {
+  background: var(--brand-700);
+  box-shadow: 0 5px 18px rgba(11,61,145,0.38);
+}
+.btn:active { transform: scale(0.98); }
 
-    .btn {
-      width: 100%;
-      padding: 12px;
-      background: #0B3D91;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 15px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+/* ── Enlace de registro ── */
+.register {
+  text-align: center;
+  margin-top: 1.35rem;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.register a {
+  color: var(--brand-600);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color var(--transition);
+}
+.register a:hover { color: var(--brand-800); text-decoration: underline; }
 
-    .btn:hover { background: #185FA5; }
-
-    .register {
-      text-align: center;
-      margin-top: 1.25rem;
-      font-size: 13px;
-      color: #666;
-    }
-
-    .register a {
-      color: #185FA5;
-      font-weight: bold;
-      text-decoration: none;
-    }
+/* ── Mensaje de error ── */
+#error-msg {
+  font-size: 13px;
+  color: var(--danger);
+  background: var(--danger-bg);
+  border: 1px solid #FCA5A5;
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  margin-bottom: 1rem;
+  display: none;
+}
+#error-msg.visible { display: block; }

@@ -1,67 +1,128 @@
-/* Criterios de evaluación */
-    .criterios { display: flex; flex-direction: column; gap: 0.75rem; }
 
-    .criterio {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding: 0.75rem 1rem;
-      background: #F4F7FB;
-      border-radius: 8px;
-    }
-
-    .criterio-nombre { font-size: 14px; font-weight: bold; color: #333; flex: 1; }
-
-    .estrellas { display: flex; gap: 6px; }
-
-    .estrella {
-      width: 28px; height: 28px;
-      border-radius: 6px;
-      border: 1px solid #B5D4F4;
-      background: white;
-      font-size: 14px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: default;
-    }
-
-    .estrella.sel { background: #185FA5; border-color: #185FA5; color: white; }
 .form-card {
-      background: white;
-      border-radius: 12px;
-      padding: 1.5rem;
-    }
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
 
-    .form-card h2 {
-      font-size: 14px;
-      font-weight: bold;
-      color: #0B3D91;
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.35rem;
-      border-bottom: 2px solid #B5D4F4;
-    }
+.form-card h2 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--brand-800);
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--brand-100);
+}
 
-.form-group { display: flex; flex-direction: column; gap: 5px; }
-    .form-group.full { grid-column: span 2; }
+/* ── Lista de criterios ── */
+.criterios { display: flex; flex-direction: column; gap: 0.65rem; }
 
-    label {
-      font-size: 13px;
-      font-weight: bold;
-      color: #185FA5;
-    }
+.criterio {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+  background: var(--brand-50);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.criterio:hover {
+  border-color: var(--brand-200);
+  box-shadow: var(--shadow-xs);
+}
 
-    input[type="text"],
-    input[type="date"],
-    select,
-    textarea {
-      width: 100%;
-      padding: 9px 12px;
-      border: 1px solid #B5D4F4;
-      border-radius: 8px;
-      font-size: 14px;
-      font-family: Arial, sans-serif;
-      color: #1a202c;
-      background: white;
-    }
+.criterio-nombre {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+  flex: 1;
+}
 
-    textarea { resize: vertical; min-height: 90px; }
+/* ── Estrellas / botones de puntuación ── */
+.estrellas { display: flex; gap: 5px; }
+
+.estrella {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--brand-200);
+  background: var(--surface);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--brand-400);
+  transition: background var(--transition), border-color var(--transition),
+              color var(--transition), transform var(--transition);
+}
+.estrella:hover {
+  background: var(--brand-100);
+  border-color: var(--brand-600);
+  transform: scale(1.08);
+}
+.estrella.sel {
+  background: var(--brand-600);
+  border-color: var(--brand-600);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(24,95,165,0.28);
+}
+
+.criterio {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md, 8px);
+    padding: 16px;
+    margin-bottom: 12px;
+}
+
+.criterio-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.criterio-nombre {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.estrellas {
+    display: flex;
+    gap: 8px;
+}
+
+.estrella {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    border: 2px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    transition: all 0.15s ease;
+}
+
+.estrella:hover {
+    border-color: var(--brand-400);
+    color: var(--brand-600);
+    background: var(--brand-50);
+}
+
+.estrella.selected {
+    background: var(--brand-600);
+    border-color: var(--brand-600);
+    color: white;
+}

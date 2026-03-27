@@ -22,7 +22,6 @@
   </aside>
 
   <div class="main">
-
     <header>
       <div>
         <h1>Lista de vacantes</h1>
@@ -47,7 +46,7 @@
         <input type="text" id="filtroTexto" placeholder="Buscar por título..." style="min-width:200px;" />
         <select id="filtroEstatus">
           <option value="">Todos los estatus</option>
-          </select>
+        </select>
       </div>
 
       <div class="table-wrap">
@@ -63,10 +62,67 @@
               <th>Acciones</th>
             </tr>
           </thead>
-          <tbody id="tbodyVacantes">
-            </tbody>
+          <tbody id="tbodyVacantes"></tbody>
         </table>
       </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL DETALLE VACANTE -->
+  <div id="modal" class="modal-overlay">
+    <div class="modal-box">
+
+      <div class="modal-header">
+        <h2 id="modal-title">Detalle de vacante</h2>
+        <button id="modalCloseBtn" class="btn btn-secondary btn-sm">✕ Cerrar</button>
+      </div>
+
+      <div class="modal-tabs">
+        <button class="tab active" data-tab="info">Información</button>
+        <button class="tab" data-tab="ranking">Ranking</button>
+      </div>
+
+      <div id="tab-info" class="tab-panel active">
+        <div class="detail-grid">
+          <div><strong>Área:</strong> <span id="d-area">—</span></div>
+          <div><strong>Tipo contrato:</strong> <span id="d-contrato">—</span></div>
+          <div><strong>Fecha cierre:</strong> <span id="d-fecha">—</span></div>
+          <div><strong>Salario:</strong> <span id="d-salario">—</span></div>
+          <div><strong>Postulantes:</strong> <span id="d-post">—</span></div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <strong>Requisitos:</strong>
+          <div id="d-reqs" style="margin-top:8px;"></div>
+        </div>
+
+        <div class="modal-actions">
+  <select id="status-select" class="status-select" style="flex:1; min-width:150px;"></select>
+  <button id="btnGuardarEstatus" class="btn btn-primary btn-sm">Guardar estatus</button>
+  <button id="btnFlujoExterno" class="btn btn-ext btn-sm" data-activo="0">
+    Activar flujo externo
+  </button>
+</div>
+      </div>
+
+      <div id="tab-ranking" class="tab-panel">
+    <div class="table-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th class="col-pos">#</th>
+                    <th>Candidato</th>
+                    <th>Puntaje final</th>
+                    <th>Automático</th>
+                    <th>Entrevista</th>
+                    <th>Estatus</th>
+                </tr>
+            </thead>
+            <tbody id="ranking-list"></tbody>
+        </table>
+    </div>
+</div>
 
     </div>
   </div>

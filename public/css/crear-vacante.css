@@ -1,52 +1,84 @@
+
+/* ── Encabezados de columnas de requisitos ── */
+.req-headers {
+  display: grid;
+  grid-template-columns: 1fr 120px 120px 36px;
+  gap: 8px;
+  padding: 0 10px;
+  margin-bottom: 4px;
+}
+
+.req-headers span {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--brand-600);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ── Fila de requisito ── */
 .req-row {
-      display: grid;
-      grid-template-columns: 1fr 120px 120px 36px;
-      gap: 8px;
-      align-items: center;
-      background: #F7FAFC;
-      border: 1px solid #E2E8F0;
-      border-radius: 8px;
-      padding: 8px 10px;
-      margin-bottom: 6px;
-    }
-    .req-row input, .req-row select {
-      padding: 7px 10px;
-      border: 1.5px solid #B5D4F4;
-      border-radius: 7px;
-      font-size: 13px;
-      font-family: Arial, sans-serif;
-      width: 100%;
-    }
-    .req-row input:focus, .req-row select:focus {
-      border-color: #185FA5;
-      outline: none;
-    }
-    .req-remove {
-      background: none;
-      border: none;
-      color: #E53E3E;
-      font-size: 18px;
-      cursor: pointer;
-      line-height: 1;
-    }
-    .weight-total {
-      font-size: 13px;
-      font-weight: bold;
-      margin-top: 8px;
-    }
-    .weight-ok   { color: #276749; }
-    .weight-warn { color: #E53E3E; }
-    .req-headers {
-      display: grid;
-      grid-template-columns: 1fr 120px 120px 36px;
-      gap: 8px;
-      padding: 0 10px;
-      margin-bottom: 4px;
-    }
-    .req-headers span {
-      font-size: 11px;
-      font-weight: bold;
-      color: #185FA5;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
+  display: grid;
+  grid-template-columns: 1fr 120px 120px 36px;
+  gap: 8px;
+  align-items: center;
+  background: var(--brand-50);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.req-row:focus-within {
+  border-color: var(--brand-400);
+  box-shadow: 0 0 0 3px rgba(24,95,165,0.08);
+}
+
+.req-row input,
+.req-row select {
+  padding: 7px 10px;
+  border: 1.5px solid var(--brand-200);
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-family: var(--font);
+  color: var(--text-primary);
+  background: var(--surface);
+  width: 100%;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.req-row input:focus,
+.req-row select:focus {
+  border-color: var(--brand-600);
+  box-shadow: 0 0 0 3px rgba(24,95,165,0.12);
+}
+
+/* ── Botón eliminar fila ── */
+.req-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--danger);
+  font-size: 18px;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+  line-height: 1;
+}
+.req-remove:hover { background: var(--danger-bg); }
+
+/* ── Contador de peso total ── */
+.weight-total {
+  font-size: 13px;
+  font-weight: 700;
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.weight-ok   { color: var(--success); }
+.weight-warn { color: var(--danger); }

@@ -187,7 +187,7 @@ async function loadRanking() {
                 <span>
                     <button class="btn btn-secondary btn-sm"
                         onclick="window.location.href=
-                            'evaluacion-entrevista.html?id_postulacion=${c.id_postulacion}'">
+    'evaluacion-entrevista.html?id_postulacion=${c.id_postulacion}'">
                         Evaluar
                     </button>
                 </span>
@@ -195,12 +195,13 @@ async function loadRanking() {
     }
 
     function actualizarFlujoUI(activo) {
-        flujoToggle.classList.toggle('active', activo);
-        flujoLabel.textContent = activo ? 'Flujo activo' : 'Flujo inactivo';
-        flujoDescripcion.textContent = activo
-            ? 'Esta vacante está aceptando postulantes desde el portal externo.'
-            : 'El flujo externo está cerrado. Solo se aceptan candidatos internos.';
-    }
+    flujoToggle.classList.toggle('active', activo);
+    flujoToggle.classList.toggle('off', !activo); // agrega esta línea
+    flujoLabel.textContent = activo ? 'Flujo activo' : 'Flujo inactivo';
+    flujoDescripcion.textContent = activo
+        ? 'Esta vacante está aceptando postulantes desde el portal externo.'
+        : 'El flujo externo está cerrado. Solo se aceptan candidatos internos.';
+}
 
     flujoToggle.addEventListener('click', async () => {
         const estaActivo = flujoToggle.classList.contains('active');

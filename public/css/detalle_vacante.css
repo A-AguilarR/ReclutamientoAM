@@ -1,162 +1,187 @@
-/* Encabezado de vacante */
-    .vacante-header {
-      background: white;
-      border-radius: 12px;
-      padding: 1.5rem;
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 1rem;
-      flex-wrap: wrap;
-    }
+.vacante-header {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
 
-    .vacante-header h2 { font-size: 20px; color: #0B3D91; margin-bottom: 6px; }
+.vacante-header h2 {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--brand-800);
+  letter-spacing: -0.5px;
+  margin-bottom: 6px;
+}
 
-    .meta { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 8px; }
-    .meta-item { font-size: 13px; color: #555; }
-    .meta-item strong { color: #333; }
+.meta { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 8px; }
 
-    .pill {
-      display: inline-block;
-      padding: 3px 12px;
-      border-radius: 20px;
-      font-size: 13px;
-      font-weight: bold;
-    }
+.meta-item {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+.meta-item strong { color: var(--text-secondary); font-weight: 600; }
 
-    .pill-activa  { background: #BEE3F8; color: #2B6CB0; }
-    .pill-eval    { background: #FEEBC8; color: #C05621; }
-    .pill-cerrada { background: #E2E8F0; color: #718096; }
+.header-actions {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
 
-    .header-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: flex-start; }
+/* ── Pills adicionales ── */
+.pill-entrevista { background: var(--success-bg);  color: var(--success); }
+.pill-revision   { background: #E9D8FD; color: #553C9A; }
+.pill-descartado { background: var(--danger-bg);   color: #9B2C2C; }
 
-    .btn {
-      padding: 8px 18px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: bold;
-      text-decoration: none;
-      font-family: Arial, sans-serif;
-      display: inline-block;
-    }
+/* ── Tarjeta de flujo externo ── */
+.flujo-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  border-left: 4px solid var(--warning);
+  box-shadow: var(--shadow-sm);
+  border-top: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
 
-    .btn-primary   { background: #0B3D91; color: white; }
-    .btn-secondary { background: white; color: #0B3D91; border: 1px solid #B5D4F4; }
-    .btn-danger    { background: white; color: #E53E3E; border: 1px solid #FEB2B2; }
+.flujo-card h2 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--brand-800);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--brand-100);
+}
 
-    /* Flujo externo */
-    .flujo-card {
-      background: white;
-      border-radius: 12px;
-      padding: 1.5rem;
-      border-left: 4px solid #DD6B20;
-    }
+.flujo-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
 
-    .flujo-card h2 {
-      font-size: 14px;
-      font-weight: bold;
-      color: #0B3D91;
-      margin-bottom: 1rem;
-      padding-bottom: 0.35rem;
-      border-bottom: 2px solid #B5D4F4;
-    }
+.flujo-info { font-size: 13.5px; color: var(--text-secondary); }
+.flujo-info strong {
+  color: var(--text-primary);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 3px;
+}
 
-    .flujo-status {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
+/* ── Toggle ── */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--brand-800);
+}
 
-    .flujo-info { font-size: 14px; color: #555; }
-    .flujo-info strong { color: #333; display: block; margin-bottom: 4px; }
+.toggle {
+  width: 46px;
+  height: 24px;
+  background: var(--success);
+  border-radius: 12px;
+  position: relative;
+  cursor: pointer;
+  transition: background var(--transition);
+  flex-shrink: 0;
+}
+.toggle.off { background: var(--neutral-bg); }
 
-    .toggle-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 14px;
-      font-weight: bold;
-      color: #0B3D91;
-    }
+.toggle-dot {
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  border-radius: 50%;
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+  transition: right var(--transition), left var(--transition);
+}
+.toggle.off .toggle-dot { right: auto; left: 4px; }
 
-    .toggle {
-      width: 46px;
-      height: 24px;
-      background: #38A169;
-      border-radius: 12px;
-      position: relative;
-    }
+/* ── Detalle de flujo ── */
+.flujo-detalle {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
 
-    .toggle.off { background: #CBD5E0; }
+.flujo-campo { display: flex; flex-direction: column; gap: 4px; }
 
-    .toggle-dot {
-      width: 18px;
-      height: 18px;
-      background: white;
-      border-radius: 50%;
-      position: absolute;
-      top: 3px;
-      right: 4px;
-    }
+.flujo-campo label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+.flujo-campo span {
+  font-size: 14px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
 
-    .toggle.off .toggle-dot { right: auto; left: 4px; }
+/* ── Tarjeta de sección genérica ── */
+.section-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+}
 
-    .flujo-detalle {
-      margin-top: 1rem;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-    }
+.section-card h2 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--brand-800);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--brand-100);
+}
 
-    .flujo-campo { display: flex; flex-direction: column; gap: 4px; }
-    .flujo-campo label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
-    .flujo-campo span  { font-size: 14px; color: #333; font-weight: bold; }
+/* ── Ranking de postulantes ── */
+.ranking-header,
+.ranking-row {
+  display: grid;
+  grid-template-columns: 28px 1fr 80px 100px 110px 90px 100px 80px;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 12px;
+  font-size: 13px;
+}
 
-    /* Sección genérica */
-    .section-card {
-      background: white;
-      border-radius: 12px;
-      padding: 1.5rem;
-    }
+.ranking-header {
+  font-weight: 700;
+  font-size: 11px;
+  color: var(--brand-600);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--border);
+  margin-bottom: 4px;
+}
 
-    .section-card h2 {
-      font-size: 14px;
-      font-weight: bold;
-      color: #0B3D91;
-      margin-bottom: 1rem;
-      padding-bottom: 0.35rem;
-      border-bottom: 2px solid #B5D4F4;
-    }
+.ranking-row {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  margin-bottom: 5px;
+  background: var(--surface);
+  transition: background var(--transition);
+}
 
-    /* Tabla candidatos */
-    table { width: 100%; border-collapse: collapse; font-size: 14px; }
-
-    thead th {
-      background: #185FA5;
-      color: white;
-      text-align: left;
-      padding: 10px 14px;
-    }
-
-    tbody tr { border-top: 1px solid #E2E8F0; }
-    tbody tr:hover { background: #E8F2FC; }
-    tbody td { padding: 11px 14px; }
-
-    .pill-entrevista { background: #C6F6D5; color: #276749; }
-    .pill-revision   { background: #E9D8FD; color: #553C9A; }
-    .pill-descartado { background: #FED7D7; color: #9B2C2C; }
-
-    .btn-sm {
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: bold;
-      text-decoration: none;
-      border: 1px solid #B5D4F4;
-      background: white;
-      color: #185FA5;
-      display: inline-block;
-      margin-right: 4px;
-    }
+.ranking-row:hover {
+  background: var(--brand-50);
+  border-color: var(--brand-200);
+}

@@ -173,69 +173,70 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     btnGuardar.addEventListener('click', async () => {
 
-        if (!inputFecha.value) {
-            alert('Selecciona la fecha de entrevista.'); return;
-        }
-        if (!selectRecom.value) {
-            alert('Selecciona una recomendación general.'); return;
-        }
+    if (!inputFecha.value) {
+        alert('Selecciona la fecha de entrevista.'); return;
+    }
+    if (!selectRecom.value) {
+        alert('Selecciona una recomendación general.'); return;
+    }
 
-        const detalles = [];
-        let faltanCalificaciones = false;
+    const detalles = [];
+    let faltanCalificaciones = false;
 
-        criteriosList.querySelectorAll('.criterio').forEach(bloque => {
-            const idRequisito   = bloque.dataset.id;
-            const seleccionada  = bloque.querySelector('.estrella.selected:last-of-type');
-            const calificacion  = seleccionada
-                ? parseInt(seleccionada.dataset.val)
-                : null;
-            const observacion   = bloque.querySelector('.req-observacion').value.trim();
+    criteriosList.querySelectorAll('.criterio').forEach(bloque => {
+        const idRequisito  = bloque.dataset.id;
+        const observacion  = bloque.querySelector('.req-observacion').value.trim();
 
-            if (!calificacion) faltanCalificaciones = true;
-
-            detalles.push({
-                id_requisito: idRequisito,
-                calificacion,
-                observacion: observacion || null
-            });
+        // Buscar la estrella seleccionada con mayor valor
+        const estrellasSeleccionadas = bloque.querySelectorAll('.estrella.selected');
+        let calificacion = null;
+        estrellasSeleccionadas.forEach(e => {
+            const val = parseInt(e.dataset.val);
+            if (!calificacion || val > calificacion) calificacion = val;
         });
 
-        if (faltanCalificaciones) {
-            alert('Califica todos los requisitos antes de guardar.'); return;
-        }
+        if (!calificacion) faltanCalificaciones = true;
 
-        const payload = {
-            id_postulacion:  idPostulacion,
-            fecha_entrevista: inputFecha.value,
-            id_recomendacion: selectRecom.value,
-            observaciones:    inputObs.value.trim() || null,
-            // detalle_evaluacion_entrevista
-            detalles,
-        };
-
-        btnGuardar.disabled     = true;
-        btnGuardar.textContent  = 'Guardando...';
-
-        // API: POST /api/evaluaciones-entrevista, adaptar
-        // Body: payload completo
-        const r = await fetchJSON('/api/evaluaciones-entrevista', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+        detalles.push({
+            id_requisito: idRequisito,
+            calificacion,
+            observacion: observacion || null
         });
-
-        btnGuardar.disabled    = false;
-        btnGuardar.textContent = 'Guardar evaluación';
-
-        if (!r.ok) {
-            alert(r.data?.message || 'Error al guardar la evaluación. Intenta de nuevo.');
-            return;
-        }
-
-        window.location.href = idVacanteOrigen
-            ? `detalle-vacante.html?id=${idVacanteOrigen}`
-            : 'vacantes.html';
     });
+
+    if (faltanCalificaciones) {
+        alert('Califica todos los requisitos antes de guardar.'); return;
+    }
+
+    const payload = {
+        id_postulacion:   idPostulacion,
+        fecha_entrevista: inputFecha.value,
+        id_recomendacion: selectRecom.value,
+        observaciones:    inputObs.value.trim() || null,
+        detalles,
+    };
+
+    btnGuardar.disabled    = true;
+    btnGuardar.textContent = 'Guardando...';
+
+    const r = await fetchJSON('/api/evaluaciones-entrevista', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
+
+    btnGuardar.disabled    = false;
+    btnGuardar.textContent = 'Guardar evaluación';
+
+    if (!r.ok) {
+        alert(r.data?.message || 'Error al guardar la evaluación. Intenta de nuevo.');
+        return;
+    }
+
+    window.location.href = idVacanteOrigen
+        ? `detalle-vacante.html?id=${idVacanteOrigen}`
+        : 'vacantes.html';
+});
 
     btnCancelar.addEventListener('click', () => {
         window.location.href = idVacanteOrigen

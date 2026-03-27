@@ -176,29 +176,38 @@ class VacantesController extends Controller
     }
 
     public function ranking($id)
-    {
-        $postulaciones = DB::table('postulaciones')
-            ->where('id_vacante', $id)
-            ->join('cat_tipos_candidato', 'postulaciones.id_tipo_candidato', '=', 'cat_tipos_candidato.id_tipo_candidato')
-            ->join('cat_estatus_postulacion', 'postulaciones.id_estatus_postulacion', '=', 'cat_estatus_postulacion.id_estatus_postulacion')
-            ->leftJoin('candidatos_externos', 'postulaciones.id_candidato_externo', '=', 'candidatos_externos.id_candidato_externo')
-            ->orderByDesc('puntaje_final')
-            ->get()
-            ->map(function ($p, $i) {
-                return [
-                    'posicion'           => $i + 1,
-                    'nombre_candidato'   => $p->nombre ?? '—',
-                    'tipo_candidato'     => $p->nombre ?? '—',
-                    'puntaje_automatico' => $p->puntaje_automatico,
-                    'puntaje_entrevista' => $p->puntaje_entrevista,
-                    'puntaje_final'      => $p->puntaje_final,
-                    'nombre_estatus'     => $p->nombre,
-                    'id_postulacion'     => $p->id_postulacion,
-                ];
-            });
+{
+    $postulaciones = DB::table('postulaciones')
+        ->where('postulaciones.id_vacante', $id)
+        ->join('cat_tipos_candidato', 'postulaciones.id_tipo_candidato', '=', 'cat_tipos_candidato.id_tipo_candidato')
+        ->join('cat_estatus_postulacion', 'postulaciones.id_estatus_postulacion', '=', 'cat_estatus_postulacion.id_estatus_postulacion')
+        ->leftJoin('candidatos_externos', 'postulaciones.id_candidato_externo', '=', 'candidatos_externos.id_candidato_externo')
+        ->select(
+            'postulaciones.id_postulacion',
+            'postulaciones.puntaje_automatico',
+            'postulaciones.puntaje_entrevista',
+            'postulaciones.puntaje_final',
+            'candidatos_externos.nombre as nombre_candidato',
+            'cat_tipos_candidato.nombre as tipo_candidato',
+            'cat_estatus_postulacion.nombre as nombre_estatus'
+        )
+        ->orderByDesc('postulaciones.puntaje_final')
+        ->get()
+        ->map(function ($p, $i) {
+            return [
+                'posicion'           => $i + 1,
+                'nombre_candidato'   => $p->nombre_candidato ?? '—',
+                'tipo_candidato'     => $p->tipo_candidato ?? '—',
+                'puntaje_automatico' => $p->puntaje_automatico,
+                'puntaje_entrevista' => $p->puntaje_entrevista,
+                'puntaje_final'      => $p->puntaje_final,
+                'nombre_estatus'     => $p->nombre_estatus ?? '—',
+                'id_postulacion'     => $p->id_postulacion,
+            ];
+        });
 
-        return response()->json($postulaciones);
-    }
+    return response()->json($postulaciones);
+}
 
     public function alertas()
     {

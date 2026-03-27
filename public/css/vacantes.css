@@ -1,105 +1,336 @@
-    .ranking-row {
-      display: grid;
-      grid-template-columns: 28px 1fr 80px 90px 110px 100px;
-      gap: 8px;
-      align-items: center;
-      padding: 10px 12px;
-      border-radius: 8px;
-      font-size: 13px;
-      border: 1px solid #E2E8F0;
-      margin-bottom: 6px;
-      background: white;
-    }
-    .ranking-row:hover { background: #E8F2FC; }
-    .rank-pos { font-weight: bold; color: #185FA5; text-align: center; }
-    .rank-name { font-weight: 500; }
-    .rank-score {
-      font-weight: bold;
-      color: white;
-      background: #185FA5;
-      border-radius: 20px;
-      padding: 2px 10px;
-      text-align: center;
-      font-size: 12px;
-    }
-    .score-high { background: #276749; }
-    .score-mid  { background: #DD6B20; }
-    .score-low  { background: #718096; }
-    .ranking-header {
-      display: grid;
-      grid-template-columns: 28px 1fr 80px 90px 110px 100px;
-      gap: 8px;
-      padding: 6px 12px;
-      font-size: 11px;
-      font-weight: bold;
-      color: #185FA5;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      margin-bottom: 4px;
-    }
-    .modal-tabs {
-      display: flex;
-      gap: 0;
-      border-bottom: 2px solid #E2E8F0;
-      margin-bottom: 1.25rem;
-    }
-    .tab {
-      padding: 8px 18px;
-      font-size: 13px;
-      font-weight: bold;
-      color: #718096;
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      margin-bottom: -2px;
-    }
-    .tab.active { color: #0B3D91; border-bottom-color: #185FA5; }
-    .tab-panel { display: none; }
-    .tab-panel.active { display: block; }
-    .info-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.75rem;
-      margin-bottom: 1rem;
-    }
-    .info-item label { font-size: 11px; font-weight: bold; color: #185FA5; text-transform: uppercase; display: block; margin-bottom: 2px; }
-    .info-item span  { font-size: 14px; }
-    .req-badge {
-      display: inline-block;
-      background: #E8F2FC;
-      border: 1px solid #B5D4F4;
-      border-radius: 20px;
-      padding: 3px 10px;
-      font-size: 12px;
-      margin: 3px;
-    }
-    .status-select {
-      padding: 5px 10px;
-      border: 1.5px solid #B5D4F4;
-      border-radius: 7px;
-      font-size: 13px;
-      font-family: Arial, sans-serif;
-      cursor: pointer;
-    }
-    .btn-ext {
-      background: #276749;
-      color: white;
-      border: none;
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: bold;
-      font-family: Arial, sans-serif;
-      cursor: pointer;
-    }
-    .btn-ext:hover { background: #1C4532; }
-    .bar-track { flex: 1; height: 6px; background: #E2E8F0; border-radius: 4px; overflow: hidden; }
-    .bar-fill  { height: 100%; border-radius: 4px; background: #185FA5; }
-    .filter-row { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; margin-bottom: 1rem; }
-    .filter-row select, .filter-row input {
-      padding: 7px 11px;
-      border: 1.5px solid #B5D4F4;
-      border-radius: 8px;
-      font-size: 13px;
-      font-family: Arial, sans-serif;
-      outline: none;
-    }
+
+.filter-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.filter-row select,
+.filter-row input {
+  padding: 8px 11px;
+  border: 1.5px solid var(--brand-200);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-family: var(--font);
+  color: var(--text-primary);
+  background: var(--surface);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.filter-row select:focus,
+.filter-row input:focus {
+  border-color: var(--brand-600);
+  box-shadow: 0 0 0 3px rgba(24,95,165,0.12);
+}
+
+/* ── Tabla de ranking ── */
+.ranking-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+}
+
+.ranking-table thead tr {
+  background: var(--brand-50);
+}
+
+.ranking-table thead th {
+  padding: 9px 14px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--brand-700);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  border-bottom: 2px solid var(--brand-200);
+}
+.ranking-table thead th:first-child { border-radius: var(--radius-md) 0 0 0; }
+.ranking-table thead th:last-child  { border-radius: 0 var(--radius-md) 0 0; }
+
+.ranking-table tbody tr {
+  transition: background var(--transition);
+}
+.ranking-table tbody tr:nth-child(even) { background: var(--brand-50); }
+.ranking-table tbody tr:hover           { background: var(--brand-100); }
+
+.ranking-table tbody td {
+  padding: 10px 14px;
+  color: var(--text-primary);
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+/* Columna # */
+.ranking-table td.col-pos,
+.ranking-table th.col-pos {
+  text-align: center;
+  width: 44px;
+  font-weight: 700;
+  color: var(--brand-600);
+}
+
+/* Columna candidato */
+.ranking-table td.col-candidato { min-width: 140px; }
+.rank-name    { font-weight: 600; color: var(--text-primary); display: block; }
+.rank-tipo    { font-size: 11px; color: var(--text-muted); margin-top: 1px; display: block; }
+
+/* Columnas numéricas */
+.ranking-table td.col-num,
+.ranking-table th.col-num {
+  text-align: center;
+  width: 90px;
+}
+
+/* ── Badge de puntuación ── */
+.rank-score {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  padding: 3px 11px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  min-width: 46px;
+}
+.score-high { background: var(--success-bg);  color: #276749; }
+.score-mid  { background: var(--warning-bg);  color: #7B341E; }
+.score-low  { background: var(--neutral-bg);  color: #4A5568; }
+
+/* ── Badge de estatus en ranking ── */
+.rank-estatus {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--brand-100);
+  color: var(--brand-800);
+  white-space: nowrap;
+}
+
+/* ── Encabezado/fila legacy (por compatibilidad) ── */
+.ranking-header { display: none; }
+.ranking-row    { display: none; }
+
+/* ── Barra de progreso ── */
+.bar-track {
+  flex: 1;
+  height: 6px;
+  background: var(--neutral-bg);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: var(--brand-600);
+  transition: width 0.4s ease;
+}
+
+/* ── Tabs dentro de modal ── */
+.modal-tabs {
+  display: inline-flex;
+  gap: 4px;
+  background: var(--brand-50);
+  border: 1.5px solid var(--brand-200);
+  border-radius: var(--radius-xl);
+  padding: 5px;
+  margin-bottom: 1.5rem;
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font);
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: var(--radius-lg);
+  border: 1.5px solid transparent;
+  background: transparent;
+  transition: color var(--transition), background var(--transition),
+              border-color var(--transition), box-shadow var(--transition);
+  white-space: nowrap;
+}
+.tab:hover {
+  color: var(--brand-700);
+  background: rgba(24, 95, 165, 0.07);
+}
+.tab.active {
+  color: var(--brand-800);
+  background: var(--surface);
+  border-color: var(--brand-200);
+  box-shadow: var(--shadow-sm);
+}
+
+/* íconos SVG inline por tab */
+.tab[data-tab="info"]::before {
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cline x1='12' y1='8' x2='12' y2='12'/%3E%3Cline x1='12' y1='16' x2='12.01' y2='16'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cline x1='12' y1='8' x2='12' y2='12'/%3E%3Cline x1='12' y1='16' x2='12.01' y2='16'/%3E%3C/svg%3E");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  flex-shrink: 0;
+}
+.tab[data-tab="ranking"]::before {
+  content: "";
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='20' x2='18' y2='10'/%3E%3Cline x1='12' y1='20' x2='12' y2='4'/%3E%3Cline x1='6' y1='20' x2='6' y2='14'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='18' y1='20' x2='18' y2='10'/%3E%3Cline x1='12' y1='20' x2='12' y2='4'/%3E%3Cline x1='6' y1='20' x2='6' y2='14'/%3E%3C/svg%3E");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  flex-shrink: 0;
+}
+
+.tab-panel         { display: none; }
+.tab-panel.active  { display: block; }
+
+/* ── Info grid dentro de modal ── */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.info-item label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--brand-600);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  display: block;
+  margin-bottom: 2px;
+}
+.info-item span {
+  font-size: 13.5px;
+  color: var(--text-primary);
+}
+
+/* ── Badge de requisito ── */
+.req-badge {
+  display: inline-flex;
+  align-items: center;
+  background: var(--brand-50);
+  border: 1px solid var(--brand-200);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--brand-700);
+  margin: 3px;
+}
+
+/* ── Select de estado inline ── */
+.status-select {
+  padding: 5px 10px;
+  border: 1.5px solid var(--brand-200);
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-family: var(--font);
+  color: var(--text-primary);
+  background: var(--surface);
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition);
+}
+.status-select:focus { border-color: var(--brand-600); }
+
+/* ── Botón de acción externa (verde) ── */
+.btn-ext {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--success);
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(56,161,105,0.28);
+  transition: background var(--transition), box-shadow var(--transition),
+              transform var(--transition);
+}
+.btn-ext:hover {
+  background: #2F855A;
+  box-shadow: 0 4px 12px rgba(56,161,105,0.36);
+}
+.btn-ext:active { transform: scale(0.97); }
+
+/* ── Modal overlay y box ── */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-box {
+  background: var(--surface);
+  border-radius: var(--radius-lg, 12px);
+  width: 90%;
+  max-width: 720px;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 28px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  font-size: 1.15rem;
+  color: var(--brand-800, #1a365d);
+  font-weight: 700;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+  font-size: .95rem;
+}
+
+/* ── Acciones dentro del modal ── */
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
