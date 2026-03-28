@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,13 +8,14 @@
   <link rel="stylesheet" href="css/app.css" />
   <link rel="stylesheet" href="css/vacantes.css" />
 </head>
+
 <body>
 
   <aside class="sidebar">
-    <div class="sidebar-logo">Overdrive <span>Search</span></div>
+    <div class="sidebar-logo">APTIOR</div>
     <nav>
       <a href="dashboard.html" class="nav-item">Panel Principal</a>
-      <a href="vacantes.html"  class="nav-item active">Vacantes</a>
+      <a href="vacantes.html" class="nav-item active">Vacantes</a>
       <a href="candidatos-externos.html" class="nav-item">Candidatos externos</a>
     </nav>
     <div class="sidebar-bottom">
@@ -98,35 +100,36 @@
         </div>
 
         <div class="modal-actions">
-  <select id="status-select" class="status-select" style="flex:1; min-width:150px;"></select>
-  <button id="btnGuardarEstatus" class="btn btn-primary btn-sm">Guardar estatus</button>
-  <button id="btnFlujoExterno" class="btn btn-ext btn-sm" data-activo="0">
-    Activar flujo externo
-  </button>
-</div>
+          <select id="status-select" class="status-select" style="flex:1; min-width:150px;"></select>
+          <button id="btnGuardarEstatus" class="btn btn-primary btn-sm">Guardar estatus</button>
+          <button id="btnFlujoExterno" class="btn btn-ext btn-sm" data-activo="0">
+            Activar flujo externo
+          </button>
+        </div>
       </div>
 
       <div id="tab-ranking" class="tab-panel">
-    <div class="table-wrap">
-        <table>
+        <div class="table-wrap">
+          <table>
             <thead>
-                <tr>
-                    <th class="col-pos">#</th>
-                    <th>Candidato</th>
-                    <th>Puntaje final</th>
-                    <th>Automático</th>
-                    <th>Entrevista</th>
-                    <th>Estatus</th>
-                </tr>
+              <tr>
+                <th class="col-pos">#</th>
+                <th>Candidato</th>
+                <th>Puntaje final</th>
+                <th>Automático</th>
+                <th>Entrevista</th>
+                <th>Estatus</th>
+              </tr>
             </thead>
             <tbody id="ranking-list"></tbody>
-        </table>
-    </div>
-</div>
+          </table>
+        </div>
+      </div>
 
     </div>
   </div>
 
   <script src="js/vacantes.js"></script>
 </body>
+
 </html>

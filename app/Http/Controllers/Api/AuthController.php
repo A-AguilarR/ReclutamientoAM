@@ -54,7 +54,7 @@ class AuthController extends Controller
             ->first();
     }
 
-    // Separar nombre en partes si viene completo
+    
     $nombreCompleto = $empleado?->nombre ?? $usuario->email;
     $partes = explode(' ', trim($nombreCompleto));
     $nombre = $partes[0] ?? '';

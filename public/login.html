@@ -3,31 +3,90 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Iniciar Sesión | OSearch</title>
+  <title>Iniciar Sesión | APTIOR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Serif+Display&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/app.css">
   <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
 
-<div id="loginForm">
-  <div class="card">
-    <h1>Overdrive Search</h1>
-    <p class="sub">Motor, Motivación, Movimiento</p>
+<div class="split-screen">
 
-    <label for="email">Correo electrónico</label>
-    <input type="email" id="email" placeholder="Ej. admin@dominio.com" />
+  <!-- ── Columna izquierda: formulario ── -->
+  <!-- id="loginForm" restaurado para login.js -->
+  <div class="form-panel" id="loginForm">
+    <div class="form-inner">
 
-    <label for="pwd">Contraseña</label>
-    <div class="pw-wrap">
-      <input type="password" id="pwd" placeholder="••••••••" />
+      <div class="brand">
+        <div class="brand-dot"></div>
+        <span class="brand-name">APTIOR</span>
+      </div>
+
+      <h1>Bienvenido<br>de vuelta</h1>
+      <p class="sub">Motor, Motivación, Movimiento</p>
+
+      <div id="error-msg" role="alert"></div>
+
+      <div class="field">
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" placeholder="admin@dominio.com" autocomplete="email" />
+      </div>
+
+      <div class="field">
+        <label for="pwd">Contraseña</label>
+        <div class="pw-wrap">
+          <input type="password" id="pwd" placeholder="••••••••" autocomplete="current-password" />
+          <button type="button" id="togglePwd" aria-label="Mostrar contraseña">Ver</button>
+        </div>
+      </div>
+
+      
+
+      <p id="msg" class="msg" aria-live="polite"></p>
+
+      <button class="btn" id="loginBtn" type="button">Iniciar sesión</button>
+
+
     </div>
-
-    <div class="space"></div>
-
-    <button class="btn" id="loginBtn" type="button">Iniciar sesión</button>
-    <p id="msg" class="msg" aria-live="polite"></p>
   </div>
+
+  <!-- ── Columna derecha: imagen ── -->
+  <div class="image-panel">
+    <!--
+      Reemplaza 'tu-imagen.jpg' con la ruta de tu imagen.
+      También puedes arrastrar una imagen aquí o usar un <img> tag.
+    -->
+    <img
+      src="img/imagenlogin.jpg"
+      alt="Imagen decorativa"
+      class="panel-img"
+      onerror="this.parentElement.classList.add('no-image')"
+    />
+
+    
+    <div class="image-overlay">
+      <blockquote>
+        "El movimiento es la puerta<br>hacia tu mejor versión."
+      </blockquote>
+    </div>
+  </div>
+
 </div>
+
 <script src="js/login.js"></script>
+<script>
+  // Toggle mostrar/ocultar contraseña
+  const toggleBtn = document.getElementById('togglePwd');
+  const pwdInput  = document.getElementById('pwd');
+  if (toggleBtn && pwdInput) {
+    toggleBtn.addEventListener('click', () => {
+      const show = pwdInput.type === 'password';
+      pwdInput.type = show ? 'text' : 'password';
+      toggleBtn.textContent = show ? 'Ocultar' : 'Ver';
+    });
+  }
+</script>
 </body>
 </html>

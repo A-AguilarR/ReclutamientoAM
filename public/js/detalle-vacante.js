@@ -228,10 +228,7 @@ async function loadRanking() {
         if (!confirm('¿Estás seguro de cerrar esta vacante? Esta acción no se puede deshacer.'))
             return;
 
-        //adaptar
-        //API: PATCH /api/vacantes/{id_vacante}/estatus
-        // Body: { nombre_estatus: 'Cerrada' }
-        // Laravel: busca id_estatus_vacante WHERE nombre = 'Cerrada'
+        
         const r = await fetchJSON(`/api/vacantes/${idVacante}/estatus`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
@@ -248,7 +245,68 @@ async function loadRanking() {
         btnCerrar.textContent = 'Vacante cerrada';
     });
 
+    let chartPuntajes = null;
+
+async function loadGraficaVacante() {
+    const r = await fetchJSON(`/api/vacantes/${idVacante}/graficas`);
+    if (!r.ok || !Array.isArray(r.data) || !r.data.length) return;
+
+    const labels   = r.data.map((c, i) => c.nombre || `Candidato ${i + 1}`);
+    const automatico  = r.data.map(c => c.puntaje_automatico);
+    const entrevista  = r.data.map(c => c.puntaje_entrevista);
+    const final       = r.data.map(c => c.puntaje_final);
+
+    const ctx = document.getElementById('chartPuntajes').getContext('2d');
+    if (chartPuntajes) chartPuntajes.destroy();
+    chartPuntajes = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [
+                {
+                    label: 'Puntaje automático',
+                    data: automatico,
+                    backgroundColor: '#3182CE',
+                    borderRadius: 4,
+                },
+                {
+                    label: 'Puntaje entrevista',
+                    data: entrevista,
+                    backgroundColor: '#805AD5',
+                    borderRadius: 4,
+                },
+                {
+                    label: 'Puntaje final',
+                    data: final,
+                    backgroundColor: '#38A169',
+                    borderRadius: 4,
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { font: { size: 12 }, padding: 12 }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    grid: { color: '#EDF2F7' }
+                },
+                x: {
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+}
+
     await loadMe();
     await loadDetalle();
     await loadRanking();
+    await loadGraficaVacante();
 });

@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!token) { window.location.href = 'login.html'; return; }
 
     const welcome           = document.getElementById('welcome');
-    const logoutBtn         = document.getElementById('logoutBtn'); // corregido typo
+    const logoutBtn         = document.getElementById('logoutBtn');
     const logoutBtnHeader   = document.getElementById('logoutBtnHeader');
     const filtroTexto       = document.getElementById('filtroTexto');
     const filtroEstatus     = document.getElementById('filtroEstatus');

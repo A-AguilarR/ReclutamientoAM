@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,13 +8,14 @@
   <link rel="stylesheet" href="css/app.css" />
   <link rel="stylesheet" href="css/detalle_vacante.css" />
 </head>
+
 <body>
 
   <aside class="sidebar">
-    <div class="sidebar-logo">Overdrive <span>Search</span></div>
+    <div class="sidebar-logo">APTIOR</div>
     <nav>
       <a href="dashboard.html" class="nav-item">Panel Principal</a>
-      <a href="vacantes.html"  class="nav-item active">Vacantes</a>
+      <a href="vacantes.html" class="nav-item active">Vacantes</a>
       <a href="candidatos-externos.html" class="nav-item">Candidatos externos</a>
     </nav>
     <div class="sidebar-bottom">
@@ -60,7 +62,7 @@
       <div class="white-box">
         <h2>Requisitos de evaluación</h2>
         <div id="v-requisitos">
-          </div>
+        </div>
       </div>
 
       <div class="white-box">
@@ -76,7 +78,14 @@
           <span>Acciones</span>
         </div>
         <div id="v-ranking">
-          </div>
+        </div>
+      </div>
+
+      <div class="white-box">
+        <h2>Puntajes de candidatos</h2>
+        <div style="max-height:200px;">
+          <canvas id="chartPuntajes" height="80"></canvas>
+        </div>
       </div>
 
       <div class="flujo-card">
@@ -114,5 +123,8 @@
   </div>
 
   <script src="js/detalle-vacante.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script src="js/detalle-vacante.js"></script>
 </body>
+
 </html>

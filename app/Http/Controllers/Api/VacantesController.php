@@ -14,6 +14,7 @@ class VacantesController extends Controller
     public function index(Request $request)
     {
         $query = Vacante::with('estatus')
+            ->withCount('postulaciones') 
             ->orderByDesc('fecha_creacion');
 
         if ($request->has('limit')) {
@@ -30,12 +31,12 @@ class VacantesController extends Controller
             }
 
             return [
-                'id_vacante'             => $v->id_vacante,
-                'titulo'                 => $v->titulo,
-                'nombre_area'            => $area?->nombre_area ?? '—',
-                'nombre_estatus'         => $v->estatus?->nombre ?? '—',
-                'total_postulantes'      => $v->postulaciones()->count(),
-                'fecha_cierre'           => $v->fecha_cierre,
+                'id_vacante' => $v->id_vacante,
+                'titulo' => $v->titulo,
+                'nombre_area' => $area?->nombre_area ?? '—',
+                'nombre_estatus' => $v->estatus?->nombre ?? '—',
+                'total_postulantes' => $v->postulaciones_count, 
+                'fecha_cierre' => $v->fecha_cierre,
                 'fecha_apertura_externa' => $v->fecha_apertura_externa,
             ];
         });
@@ -56,26 +57,26 @@ class VacantesController extends Controller
         }
 
         return response()->json([
-            'id_vacante'             => $v->id_vacante,
-            'titulo'                 => $v->titulo,
-            'descripcion'            => $v->descripcion,
-            'nombre_area'            => $area?->nombre_area ?? '—',
-            'nombre_estatus'         => $v->estatus?->nombre ?? '—',
-            'fecha_creacion'         => $v->fecha_creacion,
-            'fecha_cierre'           => $v->fecha_cierre,
+            'id_vacante' => $v->id_vacante,
+            'titulo' => $v->titulo,
+            'descripcion' => $v->descripcion,
+            'nombre_area' => $area?->nombre_area ?? '—',
+            'nombre_estatus' => $v->estatus?->nombre ?? '—',
+            'fecha_creacion' => $v->fecha_creacion,
+            'fecha_cierre' => $v->fecha_cierre,
             'fecha_apertura_externa' => $v->fecha_apertura_externa,
-            'total_postulantes'      => $v->postulaciones()->count(),
-            'externos_recibidos'     => $v->postulaciones()->where('id_tipo_candidato', 2)->count(),
-            'externos_pendientes'    => $v->postulaciones()->where('id_tipo_candidato', 2)->where('id_estatus_postulacion', 1)->count(),
-            'idDepa'                 => $v->id_area,
-            'requisitos'             => $v->requisitos->map(fn($r) => [
-                'id_requisito'    => $r->id_requisito,
-                'descripcion'     => $r->descripcion,
-                'nombre_tipo'     => $r->tipo?->nombre ?? '—',
-                'peso_pct'        => $r->peso_pct,
-                'valor_minimo'    => $r->valor_minimo,
-                'valor_ideal'     => $r->valor_ideal,
-                'es_excluyente'   => $r->es_excluyente,
+            'total_postulantes' => $v->postulaciones()->count(),
+            'externos_recibidos' => $v->postulaciones()->where('id_tipo_candidato', 2)->count(),
+            'externos_pendientes' => $v->postulaciones()->where('id_tipo_candidato', 2)->where('id_estatus_postulacion', 1)->count(),
+            'idDepa' => $v->id_area,
+            'requisitos' => $v->requisitos->map(fn($r) => [
+                'id_requisito' => $r->id_requisito,
+                'descripcion' => $r->descripcion,
+                'nombre_tipo' => $r->tipo?->nombre ?? '—',
+                'peso_pct' => $r->peso_pct,
+                'valor_minimo' => $r->valor_minimo,
+                'valor_ideal' => $r->valor_ideal,
+                'es_excluyente' => $r->es_excluyente,
             ]),
         ]);
     }
@@ -83,18 +84,18 @@ class VacantesController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'titulo'                 => 'required|string|max:100',
-            'id_area'                => 'nullable|integer',
-            'descripcion'            => 'nullable|string',
+            'titulo' => 'required|string|max:100',
+            'id_area' => 'nullable|integer',
+            'descripcion' => 'nullable|string',
             'fecha_apertura_interna' => 'nullable|date',
-            'fecha_cierre'           => 'nullable|date',
-            'requisitos'             => 'nullable|array',
+            'fecha_cierre' => 'nullable|date',
+            'requisitos' => 'nullable|array',
             'requisitos.*.id_tipo_requisito' => 'required|integer',
-            'requisitos.*.descripcion'       => 'nullable|string|max:200',
-            'requisitos.*.valor_minimo'      => 'nullable|string|max:100',
-            'requisitos.*.valor_ideal'       => 'nullable|string|max:100',
-            'requisitos.*.peso_pct'          => 'nullable|numeric',
-            'requisitos.*.es_excluyente'     => 'nullable|boolean',
+            'requisitos.*.descripcion' => 'nullable|string|max:200',
+            'requisitos.*.valor_minimo' => 'nullable|string|max:100',
+            'requisitos.*.valor_ideal' => 'nullable|string|max:100',
+            'requisitos.*.peso_pct' => 'nullable|numeric',
+            'requisitos.*.es_excluyente' => 'nullable|boolean',
         ]);
 
         $estatusActiva = CatEstatusVacante::where('nombre', 'Activa')->first();
@@ -102,25 +103,25 @@ class VacantesController extends Controller
         DB::beginTransaction();
         try {
             $vacante = Vacante::create([
-                'titulo'                 => $data['titulo'],
-                'id_area'                => $data['id_area'] ?? null,
-                'descripcion'            => $data['descripcion'] ?? null,
-                'id_estatus_vacante'     => $estatusActiva->id_estatus_vacante,
+                'titulo' => $data['titulo'],
+                'id_area' => $data['id_area'] ?? null,
+                'descripcion' => $data['descripcion'] ?? null,
+                'id_estatus_vacante' => $estatusActiva->id_estatus_vacante,
                 'fecha_apertura_interna' => $data['fecha_apertura_interna'] ?? null,
-                'fecha_cierre'           => $data['fecha_cierre'] ?? null,
-                'creado_por'             => $request->user()->id_usuario,
-                'fecha_creacion'         => now(),
+                'fecha_cierre' => $data['fecha_cierre'] ?? null,
+                'creado_por' => $request->user()->id_usuario,
+                'fecha_creacion' => now(),
             ]);
 
             foreach ($data['requisitos'] ?? [] as $req) {
                 RequisitoVacante::create([
-                    'id_vacante'        => $vacante->id_vacante,
+                    'id_vacante' => $vacante->id_vacante,
                     'id_tipo_requisito' => $req['id_tipo_requisito'],
-                    'descripcion'       => $req['descripcion'] ?? null,
-                    'valor_minimo'      => $req['valor_minimo'] ?? null,
-                    'valor_ideal'       => $req['valor_ideal'] ?? null,
-                    'peso_pct'          => $req['peso_pct'] ?? 0,
-                    'es_excluyente'     => $req['es_excluyente'] ?? false,
+                    'descripcion' => $req['descripcion'] ?? null,
+                    'valor_minimo' => $req['valor_minimo'] ?? null,
+                    'valor_ideal' => $req['valor_ideal'] ?? null,
+                    'peso_pct' => $req['peso_pct'] ?? 0,
+                    'es_excluyente' => $req['es_excluyente'] ?? false,
                 ]);
             }
 
@@ -139,11 +140,11 @@ class VacantesController extends Controller
         $estatusCerrada = CatEstatusVacante::where('nombre', 'Cerrada')->first();
 
         return response()->json([
-            'vacantes_activas'              => Vacante::where('id_estatus_vacante', $estatusActiva?->id_estatus_vacante)->count(),
-            'postulantes_totales'           => DB::table('postulaciones')->count(),
-            'entrevistas_pendientes'        => DB::table('evaluacion_entrevista')->count(),
-            'cerradas_mes'                  => Vacante::where('id_estatus_vacante', $estatusCerrada?->id_estatus_vacante)
-                                                ->whereMonth('fecha_creacion', now()->month)->count(),
+            'vacantes_activas' => Vacante::where('id_estatus_vacante', $estatusActiva?->id_estatus_vacante)->count(),
+            'postulantes_totales' => DB::table('postulaciones')->count(),
+            'entrevistas_pendientes' => DB::table('evaluacion_entrevista')->count(),
+            'cerradas_mes' => Vacante::where('id_estatus_vacante', $estatusCerrada?->id_estatus_vacante)
+                ->whereMonth('fecha_creacion', now()->month)->count(),
             'candidatos_externos_pendientes' => DB::table('postulaciones')->where('id_tipo_candidato', 2)->where('id_estatus_postulacion', 1)->count(),
         ]);
     }
@@ -176,38 +177,38 @@ class VacantesController extends Controller
     }
 
     public function ranking($id)
-{
-    $postulaciones = DB::table('postulaciones')
-        ->where('postulaciones.id_vacante', $id)
-        ->join('cat_tipos_candidato', 'postulaciones.id_tipo_candidato', '=', 'cat_tipos_candidato.id_tipo_candidato')
-        ->join('cat_estatus_postulacion', 'postulaciones.id_estatus_postulacion', '=', 'cat_estatus_postulacion.id_estatus_postulacion')
-        ->leftJoin('candidatos_externos', 'postulaciones.id_candidato_externo', '=', 'candidatos_externos.id_candidato_externo')
-        ->select(
-            'postulaciones.id_postulacion',
-            'postulaciones.puntaje_automatico',
-            'postulaciones.puntaje_entrevista',
-            'postulaciones.puntaje_final',
-            'candidatos_externos.nombre as nombre_candidato',
-            'cat_tipos_candidato.nombre as tipo_candidato',
-            'cat_estatus_postulacion.nombre as nombre_estatus'
-        )
-        ->orderByDesc('postulaciones.puntaje_final')
-        ->get()
-        ->map(function ($p, $i) {
-            return [
-                'posicion'           => $i + 1,
-                'nombre_candidato'   => $p->nombre_candidato ?? '—',
-                'tipo_candidato'     => $p->tipo_candidato ?? '—',
-                'puntaje_automatico' => $p->puntaje_automatico,
-                'puntaje_entrevista' => $p->puntaje_entrevista,
-                'puntaje_final'      => $p->puntaje_final,
-                'nombre_estatus'     => $p->nombre_estatus ?? '—',
-                'id_postulacion'     => $p->id_postulacion,
-            ];
-        });
+    {
+        $postulaciones = DB::table('postulaciones')
+            ->where('postulaciones.id_vacante', $id)
+            ->join('cat_tipos_candidato', 'postulaciones.id_tipo_candidato', '=', 'cat_tipos_candidato.id_tipo_candidato')
+            ->join('cat_estatus_postulacion', 'postulaciones.id_estatus_postulacion', '=', 'cat_estatus_postulacion.id_estatus_postulacion')
+            ->leftJoin('candidatos_externos', 'postulaciones.id_candidato_externo', '=', 'candidatos_externos.id_candidato_externo')
+            ->select(
+                'postulaciones.id_postulacion',
+                'postulaciones.puntaje_automatico',
+                'postulaciones.puntaje_entrevista',
+                'postulaciones.puntaje_final',
+                'candidatos_externos.nombre as nombre_candidato',
+                'cat_tipos_candidato.nombre as tipo_candidato',
+                'cat_estatus_postulacion.nombre as nombre_estatus'
+            )
+            ->orderByDesc('postulaciones.puntaje_final')
+            ->get()
+            ->map(function ($p, $i) {
+                return [
+                    'posicion' => $i + 1,
+                    'nombre_candidato' => $p->nombre_candidato ?? '—',
+                    'tipo_candidato' => $p->tipo_candidato ?? '—',
+                    'puntaje_automatico' => $p->puntaje_automatico,
+                    'puntaje_entrevista' => $p->puntaje_entrevista,
+                    'puntaje_final' => $p->puntaje_final,
+                    'nombre_estatus' => $p->nombre_estatus ?? '—',
+                    'id_postulacion' => $p->id_postulacion,
+                ];
+            });
 
-    return response()->json($postulaciones);
-}
+        return response()->json($postulaciones);
+    }
 
     public function alertas()
     {
@@ -228,4 +229,112 @@ class VacantesController extends Controller
 
         return response()->json($alertas);
     }
+
+    public function graficas()
+    {
+        // Vacantes por estatus
+        $vacantesPorEstatus = DB::table('vacantes')
+            ->join('cat_estatus_vacante', 'vacantes.id_estatus_vacante', '=', 'cat_estatus_vacante.id_estatus_vacante')
+            ->select('cat_estatus_vacante.nombre as estatus', DB::raw('COUNT(*) as total'))
+            ->groupBy('cat_estatus_vacante.nombre')
+            ->get();
+
+        // Postulaciones por estatus (avance del proceso)
+        $postulacionesPorEstatus = DB::table('postulaciones')
+            ->join('cat_estatus_postulacion', 'postulaciones.id_estatus_postulacion', '=', 'cat_estatus_postulacion.id_estatus_postulacion')
+            ->select('cat_estatus_postulacion.nombre as estatus', DB::raw('COUNT(*) as total'))
+            ->groupBy('cat_estatus_postulacion.nombre')
+            ->get();
+
+        return response()->json([
+            'vacantes_por_estatus' => $vacantesPorEstatus,
+            'postulaciones_por_estatus' => $postulacionesPorEstatus,
+        ]);
+    }
+
+    public function graficasVacante($id)
+    {
+        $postulaciones = DB::table('postulaciones')
+            ->leftJoin('candidatos_externos', 'postulaciones.id_candidato_externo', '=', 'candidatos_externos.id_candidato_externo')
+            ->where('postulaciones.id_vacante', $id)
+            ->select(
+                'candidatos_externos.nombre as nombre_candidato',
+                'postulaciones.puntaje_automatico',
+                'postulaciones.puntaje_entrevista',
+                'postulaciones.puntaje_final'
+            )
+            ->orderByDesc('postulaciones.puntaje_final')
+            ->get()
+            ->map(fn($p) => [
+                'nombre' => $p->nombre_candidato ?? 'Interno',
+                'puntaje_automatico' => (float) ($p->puntaje_automatico ?? 0),
+                'puntaje_entrevista' => (float) ($p->puntaje_entrevista ?? 0),
+                'puntaje_final' => (float) ($p->puntaje_final ?? 0),
+            ]);
+
+        return response()->json($postulaciones);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $data = $request->validate([
+            'titulo' => 'required|string|max:100',
+            'id_area' => 'nullable|integer',
+            'descripcion' => 'nullable|string',
+            'fecha_apertura_interna' => 'nullable|date',
+            'fecha_cierre' => 'nullable|date',
+            'requisitos' => 'nullable|array',
+            'requisitos.*.id_tipo_requisito' => 'required|integer',
+            'requisitos.*.descripcion' => 'nullable|string|max:200',
+            'requisitos.*.valor_minimo' => 'nullable|string|max:100',
+            'requisitos.*.valor_ideal' => 'nullable|string|max:100',
+            'requisitos.*.peso_pct' => 'nullable|numeric',
+            'requisitos.*.es_excluyente' => 'nullable|boolean',
+        ]);
+
+        $vacante = Vacante::findOrFail($id);
+
+        DB::beginTransaction();
+        try {
+            $vacante->update([
+                'titulo' => $data['titulo'],
+                'id_area' => $data['id_area'] ?? null,
+                'descripcion' => $data['descripcion'] ?? null,
+                'fecha_apertura_interna' => $data['fecha_apertura_interna'] ?? null,
+                'fecha_cierre' => $data['fecha_cierre'] ?? null,
+            ]);
+
+            if (isset($data['requisitos'])) {
+                $idsRequisitos = $vacante->requisitos()->pluck('id_requisito');
+                DB::table('detalle_evaluacion_entrevista')
+                    ->whereIn('id_requisito', $idsRequisitos)
+                    ->delete();
+
+
+                $vacante->requisitos()->delete();
+
+
+                foreach ($data['requisitos'] as $req) {
+                    RequisitoVacante::create([
+                        'id_vacante' => $vacante->id_vacante,
+                        'id_tipo_requisito' => $req['id_tipo_requisito'],
+                        'descripcion' => $req['descripcion'] ?? null,
+                        'valor_minimo' => $req['valor_minimo'] ?? null,
+                        'valor_ideal' => $req['valor_ideal'] ?? null,
+                        'peso_pct' => $req['peso_pct'] ?? 0,
+                        'es_excluyente' => $req['es_excluyente'] ?? false,
+                    ]);
+                }
+            }
+
+            DB::commit();
+            return response()->json(['id_vacante' => $vacante->id_vacante]);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Error: ' . $e->getMessage()], 500);
+        }
+    }
+
+
 }

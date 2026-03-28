@@ -1,75 +1,197 @@
+/* ════════════════════════════════════════════
+   APTIOR — Login Split-Screen
+   Fuente: DM Sans + DM Serif Display
+   ════════════════════════════════════════════ */
 
+/* ── Variables ── */
+:root {
+  --font:        'DM Sans', sans-serif;
+  --font-serif:  'DM Serif Display', serif;
+
+  --brand-800:   #0B3D91;
+  --brand-700:   #185FA5;
+  --brand-600:   #1A73C8;
+  --brand-400:   #4A90D9;
+  --brand-200:   #BDD7F5;
+  --brand-50:    #EDF3FA;
+
+  --text-primary:#0F172A;
+  --text-muted:  #64748B;
+  --surface:     #FFFFFF;
+  --border:      #E2EAF4;
+
+  --danger:      #DC2626;
+  --danger-bg:   #FEF2F2;
+
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   16px;
+  --radius-xl:   22px;
+
+  --shadow-lg:   0 20px 60px rgba(11,61,145,0.12), 0 4px 16px rgba(11,61,145,0.08);
+
+  --transition:  0.18s ease;
+}
+
+/* ── Reset básico ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #EDF3FA 0%, #D6E8F7 100%);
+  font-family: var(--font);
+  color: var(--text-primary);
+  min-height: 100vh;
+  display: flex;
 }
 
-/* ── Login card ── */
-.card {
-  background: var(--surface);
-  border-radius: var(--radius-xl);
-  padding: 2.5rem 2.25rem;
+/* ════════════════════════════════════════════
+   SPLIT SCREEN
+   ════════════════════════════════════════════ */
+.split-screen {
+  display: flex;
   width: 100%;
-  max-width: 390px;
-  box-shadow: var(--shadow-lg);
-  border: 1px solid var(--border);
-  animation: cardIn 0.3s ease;
+  min-height: 100vh;
 }
-@keyframes cardIn {
-  from { opacity: 0; transform: translateY(16px); }
+
+/* ── Panel izquierdo (formulario) ── */
+.form-panel {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, #F0F6FF 0%, #DDE9F8 100%);
+  padding: 3rem 2rem;
+  /* Línea decorativa sutil a la derecha */
+  border-right: 1px solid var(--brand-200);
+}
+
+.form-inner {
+  width: 100%;
+  max-width: 380px;
+  animation: fadeUp 0.45s ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── Brand mark ── */
-.card-brand {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 1.5rem;
-  font-size: 17px;
-  font-weight: 700;
-  color: var(--brand-800);
-  letter-spacing: -0.3px;
-}
-.card-brand span { color: var(--brand-400); }
-.card-brand::before {
-  content: '';
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background: var(--brand-400);
-  border-radius: 50%;
-  box-shadow: 0 0 0 3px rgba(74,144,217,0.3);
+/* ── Panel derecho (imagen) ── */
+.image-panel {
+  width: 50%;
+  position: relative;
+  overflow: hidden;
+  background: var(--brand-800);           /* fallback si no hay imagen */
 }
 
-/* ── Heading ── */
-h1 {
-  font-size: 21px;
+.panel-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  /* Zoom sutil al cargar */
+  animation: zoomIn 0.8s ease both;
+}
+
+@keyframes zoomIn {
+  from { transform: scale(1.05); }
+  to   { transform: scale(1); }
+}
+
+/* Estado sin imagen: degradado de marca */
+.image-panel.no-image {
+  background: linear-gradient(135deg, #0B3D91 0%, #4A90D9 100%);
+}
+.image-panel.no-image .panel-img { display: none; }
+
+/* Overlay oscuro sobre la imagen para que el texto sea legible */
+.image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(11, 61, 145, 0.70) 0%,
+    rgba(11, 61, 145, 0.15) 60%,
+    transparent 100%
+  );
+  display: flex;
+  align-items: flex-end;
+  padding: 2.5rem;
+}
+
+.image-overlay blockquote {
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  line-height: 1.55;
+  color: #fff;
+  border-left: 3px solid var(--brand-400);
+  padding-left: 1rem;
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fadeUp 0.6s 0.5s ease both;
+}
+
+/* ════════════════════════════════════════════
+   BRAND MARK
+   ════════════════════════════════════════════ */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2rem;
+}
+
+.brand-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--brand-400);
+  box-shadow: 0 0 0 4px rgba(74,144,217,0.25);
+  flex-shrink: 0;
+}
+
+.brand-name {
+  font-size: 15px;
   font-weight: 800;
   color: var(--brand-800);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+/* ════════════════════════════════════════════
+   TIPOGRAFÍA
+   ════════════════════════════════════════════ */
+h1 {
+  font-family: var(--font-serif);
+  font-size: 2rem;
+  font-weight: 400;          /* DM Serif es elegante en regular */
+  color: var(--brand-800);
+  line-height: 1.2;
   letter-spacing: -0.5px;
-  margin-bottom: 4px;
+  margin-bottom: 0.4rem;
 }
 
 p.sub {
   font-size: 13.5px;
   color: var(--text-muted);
-  margin-bottom: 1.75rem;
+  margin-bottom: 2rem;
 }
 
-/* ── Labels ── */
+/* ════════════════════════════════════════════
+   CAMPOS
+   ════════════════════════════════════════════ */
+.field {
+  margin-bottom: 1.1rem;
+}
+
 label {
   display: block;
   font-size: 12.5px;
   font-weight: 600;
   color: var(--brand-700);
   margin-bottom: 5px;
-  letter-spacing: 0.1px;
+  letter-spacing: 0.2px;
 }
 
-/* ── Inputs ── */
 input {
   width: 100%;
   padding: 11px 14px;
@@ -80,20 +202,22 @@ input {
   color: var(--text-primary);
   background: var(--surface);
   outline: none;
-  margin-bottom: 1.1rem;
   transition: border-color var(--transition), box-shadow var(--transition);
 }
+
 input::placeholder { color: #A0AEC0; }
+
 input:focus {
   border-color: var(--brand-600);
-  box-shadow: 0 0 0 3px rgba(24,95,165,0.12);
+  box-shadow: 0 0 0 3.5px rgba(24,95,165,0.13);
 }
 
-/* ── Campo de contraseña ── */
-.pw-wrap { position: relative; }
+/* ── Campo contraseña ── */
+.pw-wrap {
+  position: relative;
+}
 .pw-wrap input {
-  padding-right: 44px;
-  margin-bottom: 0;
+  padding-right: 72px;
 }
 .pw-wrap button {
   position: absolute;
@@ -104,7 +228,7 @@ input:focus {
   border: none;
   cursor: pointer;
   color: var(--brand-600);
-  font-size: 13px;
+  font-size: 12.5px;
   font-family: var(--font);
   font-weight: 600;
   padding: 2px 4px;
@@ -112,10 +236,10 @@ input:focus {
 }
 .pw-wrap button:hover { color: var(--brand-800); }
 
-/* ── "¿Olvidaste tu contraseña?" ── */
+/* ── Olvidaste contraseña ── */
 .forgot {
   text-align: right;
-  margin: 6px 0 1.5rem;
+  margin: 6px 0 1.6rem;
 }
 .forgot a {
   font-size: 12.5px;
@@ -126,11 +250,12 @@ input:focus {
 }
 .forgot a:hover { color: var(--brand-800); text-decoration: underline; }
 
-/* ── Botón principal ── */
+/* ════════════════════════════════════════════
+   BOTÓN PRINCIPAL
+   ════════════════════════════════════════════ */
 .btn {
   width: 100%;
-  padding: 10px;
-  padding-top: 10px;
+  padding: 12px;
   background: var(--brand-800);
   color: #fff;
   border: none;
@@ -139,21 +264,22 @@ input:focus {
   font-weight: 700;
   font-family: var(--font);
   cursor: pointer;
-  box-shadow: 0 3px 12px rgba(11,61,145,0.30);
-  transition: background var(--transition), box-shadow var(--transition),
-              transform var(--transition);
-  letter-spacing: -0.1px;
+  letter-spacing: 0.2px;
+  box-shadow: 0 4px 14px rgba(11,61,145,0.30);
+  transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
 }
 .btn:hover {
   background: var(--brand-700);
-  box-shadow: 0 5px 18px rgba(11,61,145,0.38);
+  box-shadow: 0 6px 20px rgba(11,61,145,0.38);
 }
 .btn:active { transform: scale(0.98); }
 
-/* ── Enlace de registro ── */
+/* ════════════════════════════════════════════
+   REGISTRO
+   ════════════════════════════════════════════ */
 .register {
   text-align: center;
-  margin-top: 1.35rem;
+  margin-top: 1.4rem;
   font-size: 13px;
   color: var(--text-muted);
 }
@@ -165,7 +291,9 @@ input:focus {
 }
 .register a:hover { color: var(--brand-800); text-decoration: underline; }
 
-/* ── Mensaje de error ── */
+/* ════════════════════════════════════════════
+   MENSAJE DE ERROR
+   ════════════════════════════════════════════ */
 #error-msg {
   font-size: 13px;
   color: var(--danger);
@@ -177,3 +305,20 @@ input:focus {
   display: none;
 }
 #error-msg.visible { display: block; }
+
+/* ════════════════════════════════════════════
+   RESPONSIVE — pantallas pequeñas
+   ════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .split-screen { flex-direction: column; }
+
+  .form-panel,
+  .image-panel  { width: 100%; }
+
+  .image-panel {
+    height: 240px;
+    order: -1;         /* imagen arriba en móvil */
+  }
+
+  .image-overlay blockquote { font-size: 1rem; }
+}

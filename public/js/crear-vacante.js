@@ -3,21 +3,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
     if (!token) { window.location.href = 'login.html'; return; }
 
-    const welcome         = document.getElementById('welcome');
-    const logoutBtn       = document.getElementById('logoutBtn');
+    const welcome = document.getElementById('welcome');
+    const logoutBtn = document.getElementById('logoutBtn');
     const logoutBtnHeader = document.getElementById('logoutBtnHeader');
 
-    const inputTitulo     = document.getElementById('titulo');
-    const selectArea      = document.getElementById('id_area');
-    const inputSalario    = document.getElementById('salario');
-    const inputFechaInt   = document.getElementById('fecha_apertura_interna');
-    const inputFechaCierre= document.getElementById('fecha_cierre');
-    const inputDesc       = document.getElementById('descripcion');
+    const inputTitulo = document.getElementById('titulo');
+    const selectArea = document.getElementById('id_area');
+    const inputSalario = document.getElementById('salario');
+    const inputFechaInt = document.getElementById('fecha_apertura_interna');
+    const inputFechaCierre = document.getElementById('fecha_cierre');
+    const inputDesc = document.getElementById('descripcion');
 
-    const btnAddReq       = document.getElementById('btnAddReq');
-    const reqList         = document.getElementById('req-list');
-    const weightDisplay   = document.getElementById('weight-display');
-    const btnGuardar      = document.getElementById('btnGuardar');
+    const btnAddReq = document.getElementById('btnAddReq');
+    const reqList = document.getElementById('req-list');
+    const weightDisplay = document.getElementById('weight-display');
+    const btnGuardar = document.getElementById('btnGuardar');
 
     let tiposRequisito = [];
 
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     'Authorization': 'Bearer ' + token
                 }
             });
-        } catch (_) {}
+        } catch (_) { }
         localStorage.removeItem('token');
         window.location.href = 'login.html';
     }
@@ -154,66 +154,100 @@ document.addEventListener('DOMContentLoaded', async () => {
     btnGuardar.addEventListener('click', async () => {
 
         if (!inputTitulo.value.trim()) {
-            alert('El título del puesto es obligatorio.'); return;
-        }
-        if (!selectArea.value) {
-            alert('Selecciona un área.'); return;
-        }
-
-        const requisitos = [...reqList.querySelectorAll('.req-row')].map(row => ({
-            descripcion:       row.querySelector('.req-desc').value.trim(),
-            id_tipo_requisito: row.querySelector('.req-tipo').value,
-            valor_minimo:      row.querySelector('.req-min').value.trim(),
-            valor_ideal:       row.querySelector('.req-ideal').value.trim(),
-            peso_pct:          parseFloat(row.querySelector('.req-peso').value) || 0,
-            es_excluyente:     row.querySelector('.req-excl-check').checked,
-        }));
-
-        const totalPeso = requisitos.reduce((a, r) => a + r.peso_pct, 0);
-        if (requisitos.length > 0 && Math.abs(totalPeso - 100) > 0.01) {
-            alert(`Los pesos deben sumar 100%. Actualmente suman ${totalPeso.toFixed(1)}%.`);
+            alert('El título del puesto es obligatorio.');
             return;
         }
 
+        const requisitos = [...reqList.querySelectorAll('.req-row')].map(row => ({
+            descripcion: row.querySelector('.req-desc').value.trim(),
+            id_tipo_requisito: Number(row.querySelector('.req-tipo').value) || null,
+            valor_minimo: row.querySelector('.req-min').value.trim(),
+            valor_ideal: row.querySelector('.req-ideal').value.trim(),
+            peso_pct: parseFloat(row.querySelector('.req-peso').value) || 0,
+            es_excluyente: row.querySelector('.req-excl-check').checked,
+        }));
+
+        const sinTipo = requisitos.some(r => !r.id_tipo_requisito);
+        if (requisitos.length > 0 && sinTipo) {
+            alert('Selecciona el tipo para todos los requisitos.');
+            return;
+        }
+
+        if (requisitos.length > 0) {
+            const totalPeso = requisitos.reduce((a, r) => a + r.peso_pct, 0);
+            if (Math.abs(totalPeso - 100) > 0.01) {
+                alert(`Los pesos deben sumar 100%. Actualmente suman ${totalPeso.toFixed(1)}%.`);
+                return;
+            }
+        }
+
         const payload = {
-            titulo:                 inputTitulo.value.trim(),
-            id_area:                selectArea.value,          // → vacantes.id_area (JOIN a bd_empleados.areas)
-            salario:                inputSalario.value.trim(), // campo a agregar en vacantes
-            descripcion:            inputDesc.value.trim(),
+            titulo: inputTitulo.value.trim(),
+            id_area: selectArea.value || null,
+            descripcion: inputDesc.value.trim() || null,
             fecha_apertura_interna: inputFechaInt.value || null,
-            fecha_cierre:           inputFechaCierre.value || null,
+            fecha_cierre: inputFechaCierre.value || null,
             requisitos,
         };
 
         btnGuardar.disabled = true;
         btnGuardar.textContent = 'Guardando...';
 
-        //adaptar
-        //API: POST /api/vacantes
-        // Body: payload completo arriba
-        // Laravel crea la vacante y los requisitos_vacante en una transacción
-        const r = await fetchJSON('/api/vacantes', {
-            method: 'POST',
+        // PUT si es edición, POST si es nueva
+        const url = idEditar ? `/api/vacantes/${idEditar}` : '/api/vacantes';
+        const method = idEditar ? 'PUT' : 'POST';
+
+        const r = await fetchJSON(url, {
+            method,
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
         });
 
         btnGuardar.disabled = false;
-        btnGuardar.textContent = 'Guardar vacante';
+        btnGuardar.textContent = idEditar ? 'Guardar cambios' : 'Guardar vacante';
 
         if (!r.ok) {
-            alert(r.data?.message || 'Error al guardar la vacante. Intenta de nuevo.');
+            alert(r.data?.message || 'Error al guardar la vacante.');
             return;
         }
 
-        const idNueva = r.data?.id_vacante;
-        window.location.href = idNueva
-            ? `detalle-vacante.html?id=${idNueva}`
-            : 'vacantes.html';
+        window.location.href = `detalle-vacante.html?id=${idEditar ?? r.data?.id_vacante}`;
     });
+
+    const params = new URLSearchParams(window.location.search);
+    const idEditar = params.get('id');
 
     await loadMe();
     await loadCatalogos();
-    
-    addReq();
+
+    if (idEditar) {
+        document.querySelector('h1').textContent = 'Editar vacante';
+        document.querySelector('header p').textContent = 'Modifica los datos de la vacante';
+
+        const r = await fetchJSON(`/api/vacantes/${idEditar}`);
+        if (r.ok) {
+            const v = r.data;
+            inputTitulo.value = v.titulo ?? '';
+            selectArea.value = String(v.idDepa ?? '');
+            inputFechaInt.value = v.fecha_apertura_interna ?? '';
+            inputFechaCierre.value = v.fecha_cierre ?? '';
+            inputDesc.value = v.descripcion ?? '';
+
+            // Cargar requisitos existentes
+            if (Array.isArray(v.requisitos) && v.requisitos.length) {
+                v.requisitos.forEach(req => addReq({
+                    descripcion: req.descripcion,
+                    id_tipo_requisito: req.id_requisito,
+                    valor_minimo: req.valor_minimo,
+                    valor_ideal: req.valor_ideal,
+                    peso_pct: req.peso_pct,
+                    es_excluyente: req.es_excluyente,
+                }));
+            } else {
+                addReq();
+            }
+        }
+    } else {
+        addReq();
+    }
 });

@@ -27,6 +27,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/evaluaciones-entrevista/{id}', [EvaluacionesEntrevistaController::class, 'show']);
     Route::get('/postulaciones/{id}', [PostulacionesController::class, 'show']);
     Route::post('/postulaciones', [PostulacionesController::class, 'store']);
+    Route::get('/graficas', [VacantesController::class, 'graficas']);
+    Route::get('/vacantes/{id}/graficas', [VacantesController::class, 'graficasVacante']);
+    Route::put('/vacantes/{id}', [VacantesController::class, 'update']);
 
     // Catálogos
     Route::prefix('catalogos')->group(function () {

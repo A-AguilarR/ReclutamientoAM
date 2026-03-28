@@ -141,8 +141,102 @@ document.addEventListener('DOMContentLoaded', async () => {
         `).join('');
     }
 
+    // Variables para las gráficas
+let chartVacantes = null;
+let chartPostulaciones = null;
+
+async function loadGraficas() {
+    const r = await fetchJSON('/api/graficas');
+    if (!r.ok) return;
+
+    const coloresVacantes = {
+        'Activa':      '#3182CE',
+        'En proceso':  '#DD6B20',
+        'Cerrada':     '#718096',
+        'Pausada':     '#D69E2E',
+    };
+
+    const coloresPostulaciones = {
+        'Pendiente':    '#D69E2E',
+        'En revisión':  '#3182CE',
+        'Entrevista':   '#805AD5',
+        'Aprobado':     '#38A169',
+        'Descartado':   '#E53E3E',
+    };
+
+    // Gráfica 1 — Dona: vacantes por estatus
+    const vacData  = r.data.vacantes_por_estatus ?? [];
+    const vacLabels = vacData.map(v => v.estatus);
+    const vacTotals = vacData.map(v => v.total);
+    const vacColors = vacLabels.map(l => coloresVacantes[l] ?? '#CBD5E0');
+
+    const ctxVac = document.getElementById('chartVacantesEstatus').getContext('2d');
+    if (chartVacantes) chartVacantes.destroy();
+    chartVacantes = new Chart(ctxVac, {
+        type: 'doughnut',
+        data: {
+            labels: vacLabels,
+            datasets: [{
+                data: vacTotals,
+                backgroundColor: vacColors,
+                borderWidth: 2,
+                borderColor: '#fff',
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: { font: { size: 12 }, padding: 12 }
+                }
+            }
+        }
+    });
+
+    // Gráfica 2 — Barras: avance del proceso
+    const postData   = r.data.postulaciones_por_estatus ?? [];
+    const postLabels = postData.map(p => p.estatus);
+    const postTotals = postData.map(p => p.total);
+    const postColors = postLabels.map(l => coloresPostulaciones[l] ?? '#CBD5E0');
+
+    const ctxPost = document.getElementById('chartPostulaciones').getContext('2d');
+    if (chartPostulaciones) chartPostulaciones.destroy();
+    chartPostulaciones = new Chart(ctxPost, {
+        type: 'bar',
+        data: {
+            labels: postLabels,
+            datasets: [{
+                label: 'Candidatos',
+                data: postTotals,
+                backgroundColor: postColors,
+                borderRadius: 6,
+                borderSkipped: false,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1 },
+                    grid: { color: '#EDF2F7' }
+                },
+                x: {
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+}
+
     await loadMe();
     await loadResumen();
+    await loadGraficas();
     await loadVacantes();
     await loadAlertas();
 });
