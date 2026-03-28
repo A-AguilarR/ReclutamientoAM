@@ -3,28 +3,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     const token = localStorage.getItem('token');
     if (!token) { window.location.href = 'login.html'; return; }
 
-    const welcome           = document.getElementById('welcome');
-    const logoutBtn         = document.getElementById('logoutBtn');
-    const logoutBtnHeader   = document.getElementById('logoutBtnHeader');
-    const filtroTexto       = document.getElementById('filtroTexto');
-    const filtroEstatus     = document.getElementById('filtroEstatus');
-    const tbodyVacantes     = document.getElementById('tbodyVacantes');
-    const modal             = document.getElementById('modal');
-    const modalTitle        = document.getElementById('modal-title');
-    const modalCloseBtn     = document.getElementById('modalCloseBtn');
-    const dArea             = document.getElementById('d-area');
-    const dContrato         = document.getElementById('d-contrato');
-    const dFecha            = document.getElementById('d-fecha');
-    const dSalario          = document.getElementById('d-salario');
-    const dPost             = document.getElementById('d-post');
-    const dReqs             = document.getElementById('d-reqs');
-    const rankingList       = document.getElementById('ranking-list');
-    const statusSelect      = document.getElementById('status-select');
+    const welcome = document.getElementById('welcome');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const logoutBtnHeader = document.getElementById('logoutBtnHeader');
+    const filtroTexto = document.getElementById('filtroTexto');
+    const filtroEstatus = document.getElementById('filtroEstatus');
+    const tbodyVacantes = document.getElementById('tbodyVacantes');
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+    const dArea = document.getElementById('d-area');
+    const dContrato = document.getElementById('d-contrato');
+    const dFecha = document.getElementById('d-fecha');
+    const dSalario = document.getElementById('d-salario');
+    const dPost = document.getElementById('d-post');
+    const dReqs = document.getElementById('d-reqs');
+    const rankingList = document.getElementById('ranking-list');
+    const statusSelect = document.getElementById('status-select');
     const btnGuardarEstatus = document.getElementById('btnGuardarEstatus');
-    const btnFlujoExterno   = document.getElementById('btnFlujoExterno');
+    const btnFlujoExterno = document.getElementById('btnFlujoExterno');
 
     let todasLasVacantes = [];
-    let vacanteActivaId  = null;
+    let vacanteActivaId = null;
 
     async function fetchJSON(url, opt = {}) {
         const res = await fetch(url, {
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     'Authorization': 'Bearer ' + token
                 }
             });
-        } catch (_) {}
+        } catch (_) { }
         localStorage.removeItem('token');
         window.location.href = 'login.html';
     }
@@ -109,18 +109,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             return `
             <tr>
-                <td>${v.titulo            ?? '—'}</td>
-                <td>${v.nombre_area       ?? '—'}</td>
+                <td>${v.titulo ?? '—'}</td>
+                <td>${v.nombre_area ?? '—'}</td>
                 <td><span class="pill">${v.nombre_estatus ?? '—'}</span></td>
                 <td>${v.total_postulantes ?? 0}</td>
                 <td>${fecha}</td>
                 <td>${flujo}</td>
-                <td>
-                    <button class="btn btn-secondary btn-sm btn-ver-detalle"
-                        data-id="${v.id_vacante}">
-                        Ver detalle
-                    </button>
-                </td>
+                <td style="display:flex; gap:6px; align-items:center;">
+    <button class="btn btn-secondary btn-sm btn-ver-detalle"
+        data-id="${v.id_vacante}">
+        Ver detalle
+    </button>
+    <button class="btn btn-danger btn-sm btn-eliminar"
+        data-id="${v.id_vacante}"
+        data-titulo="${v.titulo ?? ''}">
+        Eliminar
+    </button>
+</td>
             </tr>`;
         }).join('');
 
@@ -128,6 +133,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         tbodyVacantes.querySelectorAll('.btn-ver-detalle').forEach(btn => {
             btn.addEventListener('click', () => openModal(btn.dataset.id));
         });
+
+        tbodyVacantes.querySelectorAll('.btn-eliminar').forEach(btn => {
+    btn.addEventListener('click', () => eliminarVacante(btn.dataset.id, btn.dataset.titulo));
+});
     }
 
     async function loadVacantes() {
@@ -148,11 +157,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function aplicarFiltros() {
-        const texto   = filtroTexto.value.toLowerCase().trim();
+        const texto = filtroTexto.value.toLowerCase().trim();
         const estatus = filtroEstatus.value;
 
         const filtradas = todasLasVacantes.filter(v => {
-            const coincideTexto   = !texto   || (v.titulo ?? '').toLowerCase().includes(texto);
+            const coincideTexto = !texto || (v.titulo ?? '').toLowerCase().includes(texto);
             const coincideEstatus = !estatus || v.nombre_estatus === estatus;
             return coincideTexto && coincideEstatus;
         });
@@ -197,7 +206,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     async function loadDetalle(id) {
         [dArea, dContrato, dFecha, dSalario, dPost].forEach(el => el.textContent = '...');
-        dReqs.innerHTML        = '';
+        dReqs.innerHTML = '';
         modalTitle.textContent = 'Cargando...';
 
         const r = await fetchJSON(`/api/vacantes/${id}`);
@@ -209,19 +218,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const v = r.data;
 
-        modalTitle.textContent = v.titulo            ?? 'Detalle de vacante';
-        dArea.textContent      = v.nombre_area       ?? '—';
-        dFecha.textContent     = v.fecha_cierre
+        modalTitle.textContent = v.titulo ?? 'Detalle de vacante';
+        dArea.textContent = v.nombre_area ?? '—';
+        dFecha.textContent = v.fecha_cierre
             ? new Date(v.fecha_cierre).toLocaleDateString('es-MX')
             : '—';
-        dPost.textContent      = v.total_postulantes ?? 0;
-        dContrato.textContent  = v.nombre_tipo_contrato ?? '—';
-        dSalario.textContent   = v.salario ?? '—';
+        dPost.textContent = v.total_postulantes ?? 0;
+        dContrato.textContent = v.nombre_tipo_contrato ?? '—';
+        dSalario.textContent = v.salario ?? '—';
 
         statusSelect.value = v.nombre_estatus ?? '';
 
         const flujoActivo = !!v.fecha_apertura_externa;
-        btnFlujoExterno.textContent    = flujoActivo ? 'Desactivar flujo externo' : 'Activar flujo externo';
+        btnFlujoExterno.textContent = flujoActivo ? 'Desactivar flujo externo' : 'Activar flujo externo';
         btnFlujoExterno.dataset.activo = flujoActivo ? '1' : '0';
 
         if (Array.isArray(v.requisitos) && v.requisitos.length) {
@@ -305,7 +314,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!r.ok) { alert('No se pudo cambiar el flujo externo.'); return; }
 
         const nuevoEstado = !estaActivo;
-        btnFlujoExterno.textContent    = nuevoEstado ? 'Desactivar flujo externo' : 'Activar flujo externo';
+        btnFlujoExterno.textContent = nuevoEstado ? 'Desactivar flujo externo' : 'Activar flujo externo';
         btnFlujoExterno.dataset.activo = nuevoEstado ? '1' : '0';
 
         const idx = todasLasVacantes.findIndex(v =>
@@ -316,6 +325,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
         aplicarFiltros();
     });
+
+    async function eliminarVacante(id, titulo) {
+    const confirmar = confirm(`¿Estás seguro de eliminar la vacante "${titulo}"?\nEsta acción eliminará también sus postulaciones y no se puede deshacer.`);
+    if (!confirmar) return;
+
+    const r = await fetchJSON(`/api/vacantes/${id}`, {
+        method: 'DELETE'
+    });
+
+    if (!r.ok) {
+        alert(r.data?.message || 'No se pudo eliminar la vacante.');
+        return;
+    }
+
+    todasLasVacantes = todasLasVacantes.filter(v =>
+        String(v.id_vacante) !== String(id));
+    aplicarFiltros();
+}
 
     await loadMe();
     await loadCatalogos();

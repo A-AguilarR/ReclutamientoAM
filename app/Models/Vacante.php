@@ -16,6 +16,7 @@ class Vacante extends Model
         'id_area',
         'id_solicitante',
         'descripcion',
+        'salario',
         'id_estatus_vacante',
         'fecha_apertura_interna',
         'fecha_apertura_externa',

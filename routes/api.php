@@ -23,6 +23,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/vacantes', [VacantesController::class, 'index']);
     Route::post('/vacantes', [VacantesController::class, 'store']);
     Route::get('/vacantes/{id}', [VacantesController::class, 'show']);
+    Route::delete('/vacantes/{id}', [VacantesController::class, 'destroy']);
     Route::post('/evaluaciones-entrevista', [EvaluacionesEntrevistaController::class, 'store']);
     Route::get('/evaluaciones-entrevista/{id}', [EvaluacionesEntrevistaController::class, 'show']);
     Route::get('/postulaciones/{id}', [PostulacionesController::class, 'show']);
@@ -30,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/graficas', [VacantesController::class, 'graficas']);
     Route::get('/vacantes/{id}/graficas', [VacantesController::class, 'graficasVacante']);
     Route::put('/vacantes/{id}', [VacantesController::class, 'update']);
+    Route::post('/postulaciones/interno', [PostulacionesController::class, 'storeInterno']);
 
     // Catálogos
     Route::prefix('catalogos')->group(function () {

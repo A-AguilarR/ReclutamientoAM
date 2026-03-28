@@ -184,6 +184,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const payload = {
             titulo: inputTitulo.value.trim(),
             id_area: selectArea.value || null,
+            salario: inputSalario.value.trim() || null,
             descripcion: inputDesc.value.trim() || null,
             fecha_apertura_interna: inputFechaInt.value || null,
             fecha_cierre: inputFechaCierre.value || null,
@@ -229,6 +230,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             const v = r.data;
             inputTitulo.value = v.titulo ?? '';
             selectArea.value = String(v.idDepa ?? '');
+            inputSalario.value     = v.salario     ?? '';
             inputFechaInt.value = v.fecha_apertura_interna ?? '';
             inputFechaCierre.value = v.fecha_cierre ?? '';
             inputDesc.value = v.descripcion ?? '';
@@ -237,7 +239,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (Array.isArray(v.requisitos) && v.requisitos.length) {
                 v.requisitos.forEach(req => addReq({
                     descripcion: req.descripcion,
-                    id_tipo_requisito: req.id_requisito,
+                    id_tipo_requisito: req.id_tipo_requisito,
                     valor_minimo: req.valor_minimo,
                     valor_ideal: req.valor_ideal,
                     peso_pct: req.peso_pct,
