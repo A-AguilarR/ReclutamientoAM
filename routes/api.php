@@ -10,6 +10,9 @@ use App\Http\Controllers\Api\PostulacionesController;
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/login-empleado', [AuthController::class, 'loginEmpleado']);
 
+Route::get('/vacantes', [VacantesController::class, 'index']);
+Route::get('/vacantes/{id}', [VacantesController::class, 'show']);
+
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/me', [AuthController::class, 'me']);
@@ -21,9 +24,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/vacantes/{id}/ranking', [VacantesController::class, 'ranking']);
     Route::patch('/vacantes/{id}/estatus', [VacantesController::class, 'actualizarEstatus']);
     Route::patch('/vacantes/{id}/flujo-externo', [VacantesController::class, 'flujoExterno']);
-    Route::get('/vacantes', [VacantesController::class, 'index']);
     Route::post('/vacantes', [VacantesController::class, 'store']);
-    Route::get('/vacantes/{id}', [VacantesController::class, 'show']);
     Route::delete('/vacantes/{id}', [VacantesController::class, 'destroy']);
     Route::post('/evaluaciones-entrevista', [EvaluacionesEntrevistaController::class, 'store']);
     Route::get('/evaluaciones-entrevista/{id}', [EvaluacionesEntrevistaController::class, 'show']);
