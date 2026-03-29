@@ -73,6 +73,33 @@ class AuthController extends Controller
         ]
     ]);
 }
+
+public function loginEmpleado(Request $request)
+{
+    $request->validate([
+        'email'    => 'required|email',
+        'password' => 'required|string',
+    ]);
+
+    $empleado = \App\Models\Empleado::where('email_corporativo', $request->email)->first();
+
+    if (!$empleado || !Hash::check($request->password, $empleado->password)) {
+        return response()->json(['message' => 'Credenciales incorrectas.'], 401);
+    }
+
+    \Laravel\Sanctum\Sanctum::usePersonalAccessTokenModel(\App\Models\EmpleadoToken::class);
+$token = $empleado->createToken('movil')->plainTextToken;
+
+    
+    return response()->json([
+        'token'    => $token,
+        'empleado' => [
+            'id_empleado' => $empleado->id_empleado,
+            'nombre'      => $empleado->nombre,
+            'email'       => $empleado->email_corporativo,
+        ]
+    ]);
+}
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
