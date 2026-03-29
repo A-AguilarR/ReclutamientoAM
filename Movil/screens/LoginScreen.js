@@ -5,7 +5,7 @@ export default function LoginScreen({ navigation }) {
   return (
     <View style={styles.container}>
 
-      <Text style={styles.title}>Sistema de Reclutamiento</Text>
+      <Text style={styles.title}>Aptior - Módulo Empleados</Text>
 
       <TextInput
         placeholder="Correo"
