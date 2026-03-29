@@ -2,7 +2,8 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { dashboardStyles as styles } from "../styles/Stylesheet";
 
-export default function DashboardScreen({ navigation }) {
+export default function DashboardScreen({ navigation, route }) {
+  const { nombre } = route.params ?? {};
   const handleLogout = () => {
     const parentNavigation = navigation.getParent();
 
@@ -26,7 +27,7 @@ export default function DashboardScreen({ navigation }) {
       </View>
 
       <View style={styles.welcomeCard}>
-        <Text style={styles.welcomeTitle}>Hola, Usuario</Text>
+        <Text style={styles.welcomeTitle}>Hola, {nombre || "Usuario"}</Text>
         <Text style={styles.welcomeMessage}>
           Se han abierto nuevas vacantes a las que eres elegible. Revisa la sección de Vacantes para más detalles.
         </Text>
