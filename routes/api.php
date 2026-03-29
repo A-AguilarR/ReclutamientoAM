@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\EvaluacionesEntrevistaController;
 use App\Http\Controllers\Api\PostulacionesController;
 
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login-empleado', [AuthController::class, 'loginEmpleado']);
 
 Route::middleware('auth:sanctum')->group(function () {
 
@@ -32,6 +33,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/vacantes/{id}/graficas', [VacantesController::class, 'graficasVacante']);
     Route::put('/vacantes/{id}', [VacantesController::class, 'update']);
     Route::post('/postulaciones/interno', [PostulacionesController::class, 'storeInterno']);
+    Route::get('/vacantes-elegibles', [VacantesController::class, 'vacantesElegibles']);
+    Route::middleware('auth:sanctum,empleados')->group(function () {
+    Route::get('/vacantes-elegibles', [VacantesController::class, 'vacantesElegibles']);
+    });
+    Route::patch('/postulaciones/{id}/respuesta-empleado', [PostulacionesController::class, 'respuestaEmpleado']);
 
     // Catálogos
     Route::prefix('catalogos')->group(function () {
